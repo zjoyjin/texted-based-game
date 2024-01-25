@@ -54,6 +54,12 @@ class Location:
         # All locations in your game MUST be represented as an instance of this class.
 
         # TODO: Complete this method
+        self.x = -1
+        self.y = -1
+        short = ''
+        long = ''
+        commands = []
+        N, E, S, W = "North", "East", "South", "West"
 
     def available_actions(self):
         """
@@ -67,6 +73,9 @@ class Location:
         # function header (e.g. add in parameters, complete the type contract) as needed
 
         # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
+    def get_directions(self) -> list:
+        """ return the possible movement directions from current location [N,S,E,W]
+        """
 
 
 class Item:
@@ -174,8 +183,24 @@ class World:
         """
 
         # TODO: Complete this method as specified. Do not modify any of this function's specifications.
+        maparray = []
+        for line in map_data:
+            maparray.append(line.split())
+        return maparray
 
     # TODO: Add methods for loading location data and item data (see note above).
+    def load_locations(self, location_data: TextIO) -> list:
+        locations = []
+        current = []
+        for line in location_data:
+            if 'LOCATION' in line:
+                locations.append(current)
+                current = []
+                current.append[int(line.split()[1])]
+            else:
+                current.append(line.replace('\n', ''))
+        return locations[1:]
+        
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[Location]:
@@ -185,3 +210,7 @@ class World:
         """
 
         # TODO: Complete this method as specified. Do not modify any of this function's specifications.
+        num = self.locations[y][x]
+        if num == -1:
+            return None
+        return Location(num, )
