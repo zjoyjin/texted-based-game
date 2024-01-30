@@ -1,13 +1,15 @@
 LOCATION [number]
-[score]
+name
 short desc
 long desc
+
 LOCATION 2
-0
+name
 This study room is completely empty.
 You are in an empty study room. And by empty, we mean, absolutely empty. All the tables and chairs have been taken out,
 the whiteboards taken off the wall, not even the carpeting is left. Are they planning to do something else with this space?
+
 LOCATION 3
-0
+name
 You are outside the Robarts library.
 You are outside the Robarts library on a crowded street. There is a smell of coffee in the air.
