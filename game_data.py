@@ -143,6 +143,8 @@ class World:
     Representation Invariants:
         - # TODO
     """
+    locations = [None]*23
+    items = []
 
     def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
         """
@@ -163,6 +165,8 @@ class World:
 
         # The map MUST be stored in a nested list as described in the load_map() function's docstring below
         self.map = self.load_map(map_data)
+        self.locations = self.load_locations(location_data)
+        self.items = self.load_items(items_data)
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -181,26 +185,32 @@ class World:
 
         Return this list representation of the map.
         """
-
-        # TODO: Complete this method as specified. Do not modify any of this function's specifications.
-        maparray = []
-        for line in map_data:
-            maparray.append(line.split())
-        return maparray
+        return [line.split() for line in map_data]
 
     # TODO: Add methods for loading location data and item data (see note above).
-    def load_locations(self, location_data: TextIO) -> list:
-        locations = []
-        current = []
-        for line in location_data:
+    # TODO: sort out actions (nested actions?)
+    def load_locations(self, location_data: TextIO):
+        current = []    # contains data for one location -- number, name, x, y, short desc, long desc, 
+        for line in location_data:  # in numerical order (location 0 = locations[0])
             if 'LOCATION' in line:
-                locations.append(current)
-                current = []
                 current.append[int(line.split()[1])]
+            elif line == '\n':
+                self.locations[current[0]] = Location(current[0], current[1], self.get_location_coords(current[0]), current[2], current[3])
+                current = []
             else:
-                current.append(line.replace('\n', ''))
-        return locations[1:]
-        
+                current.append(str(line))
+    
+    def load_items(self, item_data: TextIO):
+        for line in item_data:
+            current = line.split(',')
+            self.items.append(Item[current[4], self.get_location(current[0], current[1]).num, current[2], current[3]])
+
+    def get_location_coords(self, num):
+        for y in range(13):
+            for x in range(11):
+                if self.location[y][x] == num:
+                    return (x, y)
+        return None
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
     def get_location(self, x: int, y: int) -> Optional[Location]:
@@ -209,8 +219,9 @@ class World:
          return None.)
         """
 
-        # TODO: Complete this method as specified. Do not modify any of this function's specifications.
-        num = self.locations[y][x]
+        # Complete this method as specified. Do not modify any of this function's specifications.
+        num = self.map[y][x]
         if num == -1:
             return None
-        return Location(num, )
+        return self.locations[num]
+    
