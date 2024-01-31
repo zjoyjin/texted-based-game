@@ -29,9 +29,9 @@ if __name__ == "__main__":
     p = Player(0, 0)  # set starting location of player; you may change the x, y coordinates here as appropriate
 
     menu = ["look", "inventory", "score", "quit", "back"]
-
     while not p.victory:
         location = w.get_location(p.x, p.y)
+
 
         # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
         # Depending on whether or not it's been visited before,

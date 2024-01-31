@@ -88,9 +88,11 @@ class Item:
         - # TODO
     """
 
-    def __init__(self, name: str, start: int, target: int, target_points: int) -> None:
+
+    def __init__(self, name: str, start: int, target: int, target_points: int, price: int, x:int, y:int, key_item: bool) -> None:
         """Initialize a new item.
         """
+
 
         # NOTES:
         # This is just a suggested starter class for Item.
@@ -99,24 +101,34 @@ class Item:
         # Consider every method in this Item class as a "suggested method".
         #
         # The only thing you must NOT change is the name of this class: Item.
-        # All item objects in your game MUST be represented as an instance of this class.
-
+        # All item objects in your game MUST be represented as an instance of this class
         self.name = name
         self.start_position = start
         self.target_position = target
         self.target_points = target_points
-
+        self.price = price
+        self.x = x
+        self.y = y
+        self.key_item = key_item
 
 class Player:
     """
     A Player in the text advanture game.
 
     Instance Attributes:
-        - # TODO
+        - inventory: the player's inventory
+        -
 
     Representation Invariants:
-        - # TODO
+        - self.Inventory >= []
     """
+    inventory: []
+    vicotry :bool
+    score :int
+    wallet: int
+
+
+
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -131,6 +143,312 @@ class Player:
         self.y = y
         self.inventory = []
         self.victory = False
+        self.score =0
+        self.location = (x, y)
+
+
+    # def move(self, dx, dy):
+    #     self.x += dx
+    #     self.y += dy
+    # def move(self, direction: int, dx, dy) -> None:
+    #     """Move the player to a new room based on the specified direction.
+    #     """
+    #     self.x += dx
+    #     self.y += dy
+    #     new_position = self.current_room.position + direction
+    #     if new_position == -1:
+    #         print("You can't go beyond this point.")
+    #     else:
+    #         for room in self.world:
+    #             if room.position == new_position:
+    #                 self.current_room = room
+    #                 print(f"You move to {room.name}.")
+    #                 return
+    #         print("Invalid direction.")
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
+
+    def move_north(self):
+        self.move(dx=0, dy=-1)
+
+    def move_south(self):
+        self.move(dx=0, dy=1)
+
+    def move_east(self):
+        self.move(dx=1, dy=0)
+
+    def move_west(self):
+        self.move(dx=-1, dy=0)
+
+    def print_score(self, score):
+        print(f"Your score is {self.score}")
+
+    def display_inventory(self) -> None:
+        """Display the items in the player's inventory.
+        """
+        if not self.inventory:
+            print("Your inventory is empty.")
+        else:
+            print("Your inventory:")
+            for item in self.inventory:
+                print(item)
+
+    def pick_up(self, item):
+        """Add an item to the player's inventory.
+            item: The item to add to the inventory.
+        """
+        self.inventory.append(item)
+        print(f"You picked up {item}.")
+
+    def take_out(self, item):
+        """Remove an item from the player's inventory.
+        """
+        if item in self.inventory:
+            self.inventory.remove(item)
+            print(f"You took out {item} from your inventory.")
+        else:
+            print(f"{item} is not in your inventory.")
+
+    def drop(self, item, location):
+        """Drop an item from the player's inventory at a specified location
+            item: The item to drop from the inventory.
+            location: The location where the item is dropped.
+        """
+        if item in self.inventory:
+            self.inventory[item] = self.location
+            print(f"You dropped {item} at {location}.")
+        else:
+            print(f"{item} is not in your inventory, so you cannot drop it.")
+
+
+class Wallet:
+    """Player's wallet in the text adventure game.
+
+    Instance Attributes:
+        - money (int): The amount of money in the wallet.
+    """
+
+    def __init__(self, initial_money: int) -> None:
+        """Initialize the wallet with an initial amount of money.
+        """
+        self.money = 100
+
+    def display_balance(self) -> None:
+        """Display the current balance in the wallet.
+        """
+        print(f"Wallet Balance: ${self.money}")
+
+    def buy(self, amount: int) -> bool:
+        """Attempt to buy an item and deduct the specified amount from the wallet.
+        Returns:
+            bool: True if the purchase is successful, False otherwise.
+        """
+        if self.money >= amount:
+            self.money -= amount
+            print(f"Purchase successful! ${amount} deducted from your wallet.")
+            return True
+        else:
+            print("Insufficient funds. Purchase failed.")
+            return False
+
+def helper_wallet():
+    # Example usage
+    player_wallet = Wallet(initial_money=50)
+    player_wallet.display_balance()
+
+    # Attempt to buy an item costing $30
+    if player_wallet.buy(30):
+        player_wallet.display_balance()
+    else:
+        print("Failed to make the purchase.")
+
+    # Attempt to buy another item costing $60
+    if player_wallet.buy(60):
+        player_wallet.display_balance()
+    else:
+        print("Failed to make the purchase.")
+
+
+class NPC:
+    """Base class for Non-Playable Characters (NPCs) in the text adventure game.
+
+    Instance Attributes:
+        - name (str): The name of the NPC.
+        - happiness (int): The happiness level of the NPC.
+        - money (int): The amount of money the NPC has.
+        - score (int): The score or morale of the NPC.
+    """
+
+    def __init__(self, name: str, happiness: int, money: int, score: int) -> None:
+        """Initialize a new NPC.
+        """
+        self.name = name
+        self.happiness = happiness
+        self.money = money
+        self.score = score
+
+    def talk(self) -> None:
+        """NPC talks."""
+        print(f"{self.name} says: Hello! How are you today?")
+        self.happiness += 1
+        self.check_happiness()
+
+    def rob(self, player) -> None:
+        """Player attempts to rob the NPC."""
+        print(f"You attempt to rob {self.name}.")
+        if self._rob_attempt():
+            print(f"You successfully rob {self.name}!")
+            player.money += self.money
+            self.money = 0
+            self.score -= 5
+        else:
+            print(f"Your robbery attempt on {self.name} fails!")
+            player.score -= 2
+
+    def leave(self) -> None:
+        """NPC leaves."""
+        print(f"{self.name} says goodbye and leaves.")
+
+    def _rob_attempt(self) -> bool:
+        """Simulate a robbery attempt."""
+        # Override this method in subclasses to customize robbery behavior.
+        return False
+
+    def check_happiness(self) -> None:
+        """Check happiness and reward running shoes if happiness exceeds a threshold."""
+        if self.happiness > 5:
+            print(f"{self.name} is very happy! They give you a pair of running shoes.")
+            # Give running shoes (you can add the logic to create an Item object here)
+
+# Subclasses????
+
+class RichLady(NPC):
+    """A rich lady NPC."""
+
+    def _rob_attempt(self) -> bool:
+        """Robbery attempt for RichLady (always succeeds)."""
+        return True
+
+    def harass_player(self, player) -> None:
+        """RichLady harasses the player."""
+        print(f"{self.name} looks at you with sideeyes and says: What are you doing here? You don't belong!")
+        print("Options:")
+        print("1. Respond calmly.")
+        print("2. Insult her back.")
+        print("3. Attempt to rob her.")
+        print("4. Leave.")
+
+        choice = input("Enter your choice (1, 2, 3, or 4): ")
+        if choice == '1':
+            print("You respond calmly and try to defuse the situation.")
+            player.happiness += 2
+        elif choice == '2':
+            print("You insult her back, but it only escalates the situation.")
+            player.happiness -= 3
+        elif choice == '3':
+            print("You decide to attempt to rob her in response to the harassment.")
+            self.rob_player(player)
+        elif choice == '4':
+            print("You decide to leave to avoid further confrontation.")
+        else:
+            print("Invalid choice. You decide to leave.")
+
+class CryingGirl(NPC):
+    """A crying girl NPC."""
+
+    def __init__(self, name: str, happiness: int, money: int, score: int, has_baby_rock: bool = False) -> None:
+        """Initialize a new CryingGirl.
+        """
+        self.has_baby_rock = has_baby_rock
+
+    def _rob_attempt(self) -> bool:
+        """Robbery attempt for CryingGirl (always fails)."""
+        return False
+
+    def request_baby_rock(self, player) -> None:
+        """CryingGirl talks to the player and requests them to find a baby rock."""
+        print(f"{self.name} is crying and says: Oh dear, could you please find a baby rock for me? It means a lot.")
+        print("Options:")
+        print("1. Find the baby rock.")
+        print("2. Leave.")
+
+        choice = input("Enter your choice (1 or 2): ")
+        if choice == '1':
+            self.find_baby_rock(player)
+        elif choice == '2':
+            print("You decide to leave.")
+        else:
+            print("Invalid choice. You decide to leave.")
+
+    def find_baby_rock(self, player) -> None:
+        """Player finds the crying girl's baby rock."""
+        if not self.has_baby_rock:
+            print(f"You find a baby rock near {self.name}.")
+            player.inventory.append("Baby Rock")
+            self.has_baby_rock = True
+            player.happiness += 3
+            print("You feel a sense of accomplishment and gain happiness!")
+        else:
+            print(f"You've already found the baby rock near {self.name}.")
+            player.happiness += 1
+            print("You feel a bit happier!")
+
+
+
+class MiserableStudent(NPC):
+    """A miserable student NPC."""
+
+    def __init__(self, name: str, happiness: int, money: int, score: int, has_food: bool = False) -> None:
+        """Initialize a new MiserableStudent.
+        """
+        self.has_food = has_food
+    def _rob_attempt(self) -> bool:
+        """Robbery attempt for MiserableStudent (always succeeds)."""
+        return True
+
+    def ask_for_food(self, player) -> None:
+        """MiserableStudent talks to the player about finals and asks for food."""
+        print(
+            f"{self.name} looks stressed and says: I have final exams coming up, and I'm starving. Can you buy me some food from the 7-Eleven store?")
+
+        # Check if the player has already bought food for the student
+        if self.has_food:
+            print("You've already bought food for the student. They look grateful.")
+            player.happiness += 2
+        else:
+            print("Options:")
+            print("1. Agree to buy food and go to the 7-Eleven store.")
+            print("2. Refuse and leave.")
+
+            choice = input("Enter your choice (1 or 2): ")
+            if choice == '1':
+                self.go_to_store(player)
+            elif choice == '2':
+                print("You decide to refuse and leave.")
+            else:
+                print("Invalid choice. You decide to leave.")
+
+    def go_to_store(self, player) -> None:
+        """Player goes to the 7-Eleven store to buy food."""
+        print("You need to go to the 7-Eleven store.")
+
+        # Assume the player can buy food for $5
+        if player.money >= 5:
+            print("You buy some food for the miserable student.")
+            self.has_food = True
+            player.money -= 5
+            player.inventory.append("Food")
+            player.happiness += 3
+            print("You've successfully bought food for the student, and they look grateful.")
+        else:
+            print("You don't have enough money to buy food. The student continues to look hungry.")
+
+
+
+
+
+
 
 
 class World:
