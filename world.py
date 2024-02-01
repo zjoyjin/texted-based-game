@@ -1,5 +1,5 @@
 from typing import Optional, TextIO
-from game_data import Location, Item, Shop
+from game_data import Location, Item, Shop, NPC, RichLady, MiserableStudent, CryingGirl
 
 class World:
     """A text adventure game world storing all location, item and map data.
@@ -11,9 +11,10 @@ class World:
     Representation Invariants:
         - # TODO
     """
-    locations = [None]*23
-    items = []
+    locations: list
+    items: list
     map: list
+    npcs: list
 
     def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
         """
@@ -36,6 +37,9 @@ class World:
         self.map = self.load_map(map_data)
         self.locations = self.load_locations(location_data)
         self.items = self.load_items(items_data)
+        self.npcs = self.load_npcs()
+        self.load_shops()
+
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -80,6 +84,9 @@ class World:
         for item in self.items:
             if (item.x, item.y) == self.get_location_coords(41) or self.get_location_coords(40) or self.get_location_coords(34):
                 self.get_location(item.x, item.y).add_ware(item)
+
+    def load_npcs(self):
+        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 7, 5), CryingGirl("Crying Girl", 0, 8, 4)]
 
     def get_location_coords(self, num):
         for y in range(13):
