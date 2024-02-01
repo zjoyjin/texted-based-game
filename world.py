@@ -13,6 +13,7 @@ class World:
     """
     locations = [None]*23
     items = []
+    map: list
 
     def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
         """
@@ -57,20 +58,23 @@ class World:
 
     # TODO: Add methods for loading location data and item data (see note above).
     def load_locations(self, location_data: TextIO):
+        locs = [None]*23
         current = []    # contains data for one location -- number, name, x, y, short desc, long desc, 
         for line in location_data:  # in numerical order (location 0 = locations[0])
             if 'LOCATION' in line:
                 current.append[int(line.split()[1])]
             elif line == '\n':
-                self.locations[current[0]] = Location(current[0], current[1], self.get_location_coords(current[0]), current[2], current[3])
+                locs[current[0]] = Location(current[0], current[1], self.get_location_coords(current[0]), current[2], current[3])
                 current = []
             else:
                 current.append(str(line))
+        return locs
     
     def load_items(self, item_data: TextIO):
+        itms = []
         for line in item_data:
             current = line.split(',')
-            self.items.append(Item[current[4], self.get_location(current[0], current[1]).num, current[2], current[3]])
+            itms.append(Item(current[4], int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
 
     def get_location_coords(self, num):
         for y in range(13):
