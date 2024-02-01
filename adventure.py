@@ -17,21 +17,43 @@ please consult our Course Syllabus.
 
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
-
 # Note: You may add in other import statements here as needed
-from game_data import World, Item, Location, Player
+from game_data import Item, Location, Player
+from world import World
+
+N, E, S, W = "North", "East", "South", "West"   #move into get_directions if not needed
 
 # Note: You may add helper functions, classes, etc. here as needed
+def get_directions(world: World, player) -> list:
+    """ return the possible movement directions from current location [N,S,E,W]
+    """
+    directions = []
+    # North
+    if world.get_location(player.x, player.y - 1) is not None:
+        directions.append(N)
+    #South
+    if world.get_location(player.x, player.y + 1) is not None:
+        directions.append(S)
+    #East
+    if world.get_location(player.x + 1, player.y) is not None:
+        directions.append(E)
+    #West
+    if world.get_location(player.x - 1, player.y) is not None:
+        directions.append(W)
+    return directions
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
-    w = World(open("map.txt"), open("locations.txt"), open("items.txt"))
+    with open('map.txt') as map_file, open('locations.txt') as location_file, open('items.txt') as item_file:
+        w = World(map_file, location_file, item_file)
+    
     p = Player(0, 0)  # set starting location of player; you may change the x, y coordinates here as appropriate
 
-    menu = ["look", "inventory", "score", "quit", "back"]
+
+    menu = ["LOOK", "MOVE", "INVENTORY", "SCORE", "TIME", "QUIT"]
+
     while not p.victory:
         location = w.get_location(p.x, p.y)
-
 
         # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
         # Depending on whether or not it's been visited before,

@@ -1,5 +1,5 @@
 from typing import Optional, TextIO
-from game_data import Location, Item
+from game_data import Location, Item, Shop
 
 class World:
     """A text adventure game world storing all location, item and map data.
@@ -75,6 +75,11 @@ class World:
         for line in item_data:
             current = line.split(',')
             itms.append(Item(current[4], int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
+
+    def load_shops(self):
+        for item in self.items:
+            if (item.x, item.y) == self.get_location_coords(41) or self.get_location_coords(40) or self.get_location_coords(34):
+                self.get_location(item.x, item.y).add_ware(item)
 
     def get_location_coords(self, num):
         for y in range(13):
