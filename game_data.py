@@ -20,6 +20,50 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 from typing import Optional
 
+
+class Item:
+    """An item in our text adventure game world.
+
+    Instance Attributes:
+        - # TODO
+
+    Representation Invariants:
+        - # TODO
+    """
+
+    def __init__(self, name: str, target_points: int, price: int, x:int, y:int, key_item: str) -> None:
+        """Initialize a new item.
+        """
+
+
+        # NOTES:
+        # This is just a suggested starter class for Item.
+        # You may change these parameters and the data available for each Item object as you see fit.
+        # (The current parameters correspond to the example in the handout).
+        # Consider every method in this Item class as a "suggested method".
+        #
+        # The only thing you must NOT change is the name of this class: Item.
+        # All item objects in your game MUST be represented as an instance of this class
+        self.name = name
+        # self.position = start
+        # self.target_position = target
+        self.x = x
+        self.y = y
+        self.target_points = target_points
+        self.price = price
+        if key_item == "False":
+            self.key_item = False
+        else:
+            self.key_item = True
+
+
+    def update_location(self, x, y):
+        """ Update position of item. None if in inventory.
+        """
+        self.x = x
+        self.y = y
+
+
 class Location:
     """A location in our text adventure game world.
 
@@ -36,6 +80,7 @@ class Location:
     short_desc: str
     long_desc: str
     visited: bool = False
+    items: list[Item] = []
     
     def __init__(self, num, name, pos, short_desc, long_desc) -> None:
         """Initialize a new location.
@@ -90,6 +135,14 @@ class Location:
     
     def get_coords(self):
         return (self.x, self.y)
+    
+    def update_items(self, items = [Item]):
+        for itm in items:
+            if itm.x == self.x and itm.y == self.y:
+                self.items.append(itm)
+    
+    def get_items(self):
+        return(self.items)
 
     # MOVED TO ADVENTURE.PY
     # def get_directions(self, world) -> list:
@@ -134,42 +187,6 @@ class Location:
     #     for direction in self.get_directions():
     #         print(f"[{direction}]", end = '\t')
 
-
-class Item:
-    """An item in our text adventure game world.
-
-    Instance Attributes:
-        - # TODO
-
-    Representation Invariants:
-        - # TODO
-    """
-
-    def __init__(self, name: str, start: int, target: int, target_points: int, price: int, x:int, y:int, key_item: bool) -> None:
-        """Initialize a new item.
-        """
-
-
-        # NOTES:
-        # This is just a suggested starter class for Item.
-        # You may change these parameters and the data available for each Item object as you see fit.
-        # (The current parameters correspond to the example in the handout).
-        # Consider every method in this Item class as a "suggested method".
-        #
-        # The only thing you must NOT change is the name of this class: Item.
-        # All item objects in your game MUST be represented as an instance of this class
-        self.name = name
-        self.start_position = start
-        self.target_position = target
-        self.target_points = target_points
-        self.price = price
-        self.x = x
-        self.y = y
-        self.key_item = key_item
-
-    def update_location(self, x, y):
-        self.x = x
-        self.y = y
 
 class Wallet:
     """Player's wallet in the text adventure game.
@@ -237,7 +254,7 @@ class Player:
     vicotry :bool
     score :int
     wallet: Wallet
-    moves: int
+    steps: int = 0
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -254,7 +271,7 @@ class Player:
         self.victory = False
         self.score = 0
         self.location = (x, y)
-        self._collected = set() # for key items
+        self._deposited = set() # for key items
 
     # def move(self, dx, dy):
     #     self.x += dx
@@ -283,6 +300,14 @@ class Player:
             self.x += 1
         elif dir == "West":
             self.x -= 1
+        
+        for itm in self.inventory:
+            if itm.name == "Running Shoes":
+                self.steps += 1
+                break
+        else:
+            self.steps += 2
+
 
     def print_score(self, score):
         print(f"Your score is {self.score}")
@@ -296,6 +321,9 @@ class Player:
             print("Your inventory:")
             for item in self.inventory:
                 print(item + ",", " ")
+    
+    def print_steps(self):
+        print(f"It is {8 + self.score // 60}: {self.score % 60}. Your exam starts at 5:30!")
 
     def pick_up(self, item: Item):
         """Add an item to the player's inventory.
@@ -303,8 +331,6 @@ class Player:
         """
         self.inventory.append(item)
         item.update_location(None, None)
-        if item.key_item:
-            self._collected.add(item)
         print(f"You picked up {item}.")
 
     def take_out(self, item, at_ex: bool):      #at_ex: if we are at exam centre
@@ -314,23 +340,28 @@ class Player:
             self.inventory.remove(item)
             print(f"You took out {item} from your inventory.")
         elif item in self.inventory and at_ex and item.key_item:
-            print(f"Deposited {item} at the Exam Centre.")
+            self.inventory.remove(item)
+            self._deposited.add(item)
+            self.score += item.score
+            print(f"Deposited {item} at the Exam Centre!")
         else:
             print(f"Could not give {item}.")
 
-    def drop(self, item, location):
+    def drop(self, item):
         """Drop an item from the player's inventory at a specified location
             item: The item to drop from the inventory.
             location: The location where the item is dropped.
+            NOTE: PLEASE DONT LET THEM DROP AT EXAM CENTRE
         """
         if item in self.inventory and not item.key_item:
-            self.inventory[item] = self.location
-            print(f"You dropped {item} at {location}.")
+            self.inventory.remove(item)
+            item.update_location(self.x, self.y)
+            print(f"You dropped {item.name}.")
         else:
-            print(f"{item} is not in your inventory, so you cannot drop it.")
+            print(f"Could not drop {item.name}.")
     
     def update_victory(self):
-        if self.score > 600 and len(self._collected) == 3:
+        if self.score > 600 and len(self._deposited) == 3:
             self.victory = True
 
     def update_moves(self):
