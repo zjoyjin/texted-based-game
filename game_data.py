@@ -548,15 +548,14 @@ class Shop(Location):
     visited: bool = False
     wares: list[Item]
 
-    def add_wares(self, items: list[Item]):
-        for itm in items:
-            self.append(itm)
+    def add_ware(self, itm: Item):
+        self.append(itm)
 
     def print_wares(self):
         print("ITEM \tPRICE")
         for itm in self.wares:
             print(f"{itm.name}:\t${itm.price}")
 
-    def sold(self, item):      # pair iin adventure.py w/ wallet decrease
+    def sold(self, item):      # pair in adventure.py w/ wallet decrease
         print("Thank you for your purchase!")
         self.wares.pop(item)
