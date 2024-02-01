@@ -378,26 +378,23 @@ class NPC:
         - score (int): The score or morale of the NPC.
     """
 
-    def __init__(self, name: str, happiness: int, money: int, score: int) -> None:
+    def __init__(self, name: str, money: int, score: int) -> None:
         """Initialize a new NPC.
         """
         self.name = name
-        self.happiness = happiness
         self.money = money
         self.score = score
 
     def talk(self) -> None:
         """NPC talks."""
         print(f"{self.name} says: Hello! How are you today?")
-        self.happiness += 1
-        self.check_happiness()
 
     def rob(self, player) -> None:
         """Player attempts to rob the NPC."""
         print(f"You attempt to rob {self.name}.")
         if self._rob_attempt():
             print(f"You successfully rob {self.name}!")
-            player.money += self.money
+            player.wallet.earn(self.money)
             self.money = 0
             self.score -= 5
         else:
@@ -461,7 +458,7 @@ class CryingGirl(NPC):
 
     def request_baby_rock(self, player) -> None:
         """CryingGirl talks to the player and requests them to find a baby rock."""
-        print(f"{self.name} is crying and says: Oh dear, could you please find a baby rock for me? It means a lot.")
+        print(f"{self.name}: *Sob* Oh dear, oh dear... Could you please find a baby rock for me? It means a lot. *Sob*")
         print("Options:")
         print("1. Find the baby rock.")
         print("2. Leave.")
@@ -497,12 +494,6 @@ class MiserableStudent(NPC):
     #     self.has_food = has_food
     
     has_food = False
-
-    def check_happiness(self) -> None:
-        """Check happiness and reward running shoes if happiness exceeds a threshold."""
-        if self.happiness > 5:
-            print(f"{self.name} is very happy! They give you a pair of running shoes.")
-            # Give running shoes (you can add the logic to create an Item object here)
     
     def _rob_attempt(self) -> bool:
         """Robbery attempt for MiserableStudent (always succeeds)."""
