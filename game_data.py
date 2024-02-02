@@ -30,6 +30,12 @@ class Item:
     Representation Invariants:
         - # TODO
     """
+    name: str
+    x: int
+    y: int
+    target_points: int
+    price: int
+    key_item: bool
 
     def __init__(self, name: str, target_points: int, price: int, x:int, y:int, key_item: str) -> None:
         """Initialize a new item.
@@ -109,11 +115,15 @@ class Player:
     Representation Invariants:
         - self.Inventory >= []
     """
-    inventory: []
-    vicotry :bool
-    morale :int
+    x: int
+    y: int
+    inventory: list[Item]
     wallet: Wallet
-    steps: int = 0
+    morale: int
+    steps: int
+    _deposited: set[Item] # for key items
+    has_running_shoes: bool
+    victory: bool
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -127,11 +137,14 @@ class Player:
 
         self.x = x
         self.y = y
-        self.inventory = [Item]
-        self.victory = False
+        # self.location = (x, y)
+        self.inventory = []
+        self.wallet = Wallet()
         self.morale = 0
-        self.location = (x, y)
-        self._deposited = set(Item) # for key items
+        self.steps = 0
+        self._deposited = set() # for key items
+        self.has_running_shoes = False
+        self.victory = False
 
     # def move(self, dx, dy):
     #     self.x += dx
@@ -161,9 +174,6 @@ class Player:
         elif dir == "WEST":
             self.x -= 1
 
-        self.update_steps()
-
-
     def print_morale(self, morale):
         print(f"Your morale is {self.morale}")
 
@@ -188,7 +198,7 @@ class Player:
         item.update_location(None, None)
         print(f"You picked up {item}.")
 
-    def take_out(self, item, at_ex: bool):      #at_ex: if we are at exam centre
+    def take_out(self, item: Item, at_ex: bool):      #at_ex: if we are at exam centre
         """Remove an item from the player's inventory.
         """
         if item in self.inventory and not at_ex and not item.key_item:
@@ -197,7 +207,7 @@ class Player:
         elif item in self.inventory and at_ex and item.key_item:
             self.inventory.remove(item)
             self._deposited.add(item)
-            self.morale += item.morale
+            self.morale += item.target_points
             print(f"Deposited {item} at the Exam Centre!")
         else:
             print(f"Could not give {item}.")
@@ -211,6 +221,8 @@ class Player:
         if item in self.inventory and not item.key_item:
             self.inventory.remove(item)
             item.update_location(self.x, self.y)
+            if item.name == "Running Shoes":
+                self.has_running_shoes = False
             print(f"You dropped {item.name}.")
         else:
             print(f"Could not drop {item.name}.")
@@ -220,15 +232,19 @@ class Player:
             self.victory = True
 
     def update_steps(self):
-        for itm in self.inventory:
-            if itm.name == "Running Shoes":
-                self.steps += 1
-                break
+        if self.has_running_shoes:
+            self.steps += 1
         else:
             self.steps += 2
     
     def update_deposited(self, item):
         self._deposited.add(item)
+
+    def got_running_shoes(self):
+        self.has_running_shoes = True
+    
+    def dropped_running_shoes(self):
+        self.has_running_shoes = False
 
 class NPC:
     """Base class for Non-Playable Characters (NPCs) in the text adventure game.
@@ -272,12 +288,14 @@ class NPC:
         """Simulate a robbery attempt."""
         # Override this method in subclasses to customize robbery behavior.
         return False
-
+    
+    def prompt(self, player: Player, items: [Item]) -> None:
+        pass
 
 class RichLady(NPC):
     """A rich lady NPC."""
 
-    def harass_player(self, player) -> None:
+    def prompt(self, player) -> None:
         """RichLady harasses the player."""
         print(f"{self.name} looks at you with sideeyes and says: What are you doing here? You don't belong!")
         print("Options:")
@@ -315,17 +333,17 @@ class CryingGirl(NPC):
         """Robbery attempt for CryingGirl (always fails)."""
         return False
 
-    def request_baby_rock(self, player) -> None:
+    def prompt(self, player) -> None:
         """CryingGirl talks to the player and requests them to find a baby rock."""
         print(f"{self.name}: *Sob* Oh dear, oh dear... Could you please find a baby rock for me? It means a lot. *Sob*")
         print("Options:")
-        print("1. Find the baby rock.")
+        print("1.Give baby rock.")
         print("2. Rob")
         print("3. Leave.")
 
         choice = input("Enter your choice (1 or 2): ")
         if choice == '1':
-            self.find_baby_rock(player)
+            self.give_baby_rock(player)
         elif choice == '2':
             print("You decide to attempt to rob her.")
             self.get_robbed(player)
@@ -334,19 +352,22 @@ class CryingGirl(NPC):
         else:
             print("Invalid choice. You decide to leave.")
 
-    def find_baby_rock(self, player) -> None:
+    def give_baby_rock(self, player: Player) -> None:
         """Player finds the crying girl's baby rock."""
         if not self.has_baby_rock:
-            print(f"You find a baby rock near {self.name}.")
-            player.pick_up("Baby Rock")
-            self.has_baby_rock = True
-            player.morale += 3
-            print("You feel a sense of accomplishment and gain happiness!")
+            for item in player.inventory:
+                if item.name == "Baby Rock":
+                    player.take_out(item)
+                    self.has_baby_rock = True
+                    player.morale += 3
+                    print("Crying Girl: You found my baby!!! Thank you so much!")
+                    print("You feel a sense of accomplishment.")
+                    break
+            if not self.has_baby_rock:      # rock not in inventory
+                print("You do not have the rock in your inventory.")
         else:
-            print(f"You've already found the baby rock near {self.name}.")
+            print(f"You've already found the baby rock. It's nice to have done a good deed.")
             player.morale += 1
-            print("You feel a bit better about yourself.")
-
 
 class MiserableStudent(NPC):
     """A miserable student NPC."""
@@ -362,7 +383,7 @@ class MiserableStudent(NPC):
         """Robbery attempt for MiserableStudent (always succeeds)."""
         return True
 
-    def ask_for_food(self, player, items: [Item]) -> None:
+    def prompt(self, player, items: list[Item]) -> None:
         """MiserableStudent talks to the player about finals and asks for food."""
         print(
             f"{self.name} looks stressed and says: I have final exams coming up, and I'm starving...")
@@ -383,16 +404,17 @@ class MiserableStudent(NPC):
                 player.display_inventory()
                 inp = input().lower()
                 if inp == "candy" or inp == "hot chocolate":
-                    for i in items:
+                    for i in player.inventory:
                         if i.name.lower() == inp:
-                            self.take_out(i)
+                            player.take_out(i)
                             break
                     print("You give the student some candy.")
                     print(f"{self.name}: Ahh sugar... Sugar!! I can feel the glucose (C6H12O6) running through my veins!\
                            Speaking of running, hear's a gift for you. It seems that you're in a bit of a rush, so this might help!")
                     for i in items:
                         if i.name == "Running Shoes":
-                            self.pick_up(i)
+                            player.pick_up(i)
+                            player.got_running_shoes()
                             break
                 else:
                     print(f"{self.name}: That's not food...")
@@ -420,9 +442,9 @@ class Location:
     y: int
     short_desc: str
     long_desc: str
-    visited: bool = False
-    items: list[Item] = []
-    npc: NPC = None      # there's only gonna be at most one npc at each loc anyway
+    visited: bool
+    items: list[Item]
+    npc: NPC      # there's only gonna be at most one npc at each loc anyway
     
     def __init__(self, num, name, pos, short_desc, long_desc) -> None:
         """Initialize a new location.
