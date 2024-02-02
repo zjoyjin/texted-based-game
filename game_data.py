@@ -551,17 +551,12 @@ class Location:
 class Shop(Location):
 
     # NOTE!!!!! STATIC VAR VS INSTANCE VAR -- MAKE SURE SHADOWS CORRECTLY!
-
-    wares: list[Item] = []
-
-    def add_ware(self, itm: Item):
-        self.wares.append(itm)
-
     def print_wares(self):
-        print("ITEM \tPRICE")
-        for itm in self.wares:
-            print(f"{itm.name}:\t${itm.price}")
+        print("ITEM              PRICE")
+        for itm in self.items:
+            spaces = 20 - len(itm.name)
+            print(f"{itm.name}:{" " * spaces}${itm.price}")
 
     def sold(self, item):      # pair in adventure.py w/ wallet decrease
         print("Thank you for your purchase!")
-        self.wares.pop(item)
+        self.remove_item(item)
