@@ -1,8 +1,3 @@
-LOCATION [number]
-name
-short desc
-long desc
-
 LOCATION 0
 Pathway
 You are at a sidewalk.
@@ -257,8 +252,3 @@ SANDFORD FLEMING
 You're in Sandford Fleming.
 You're in Sandford Fleming. It's a tall building where engineering stuff happens.
 Students are coming and going with a purpose.
-
-
-
-
-
