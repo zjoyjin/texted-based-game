@@ -11,10 +11,10 @@ class World:
     Representation Invariants:
         - # TODO
     """
-    locations: list
-    items: list
-    map: list
-    npcs: list
+    locations: list[Location]
+    items: list[Item]
+    map: list[int]
+    npcs: list[NPC]
 
     def __init__(self, map_data: TextIO, location_data: TextIO, items_data: TextIO) -> None:
         """
@@ -58,41 +58,59 @@ class World:
 
         Return this list representation of the map.
         """
-        return [line.split() for line in map_data]
+        str_map = [line.split() for line in map_data]
+        for row in range(len(str_map)):
+            for num in range(len(str_map[0])):
+                str_map[row][num] = int(str_map[row][num])
+        return str_map
 
     # TODO: Add methods for loading location data and item data (see note above).
     def load_locations(self, location_data: TextIO):
-        locs = [None]*23
+        locs = [None]*47
         current = []    # contains data for one location -- number, name, x, y, short desc, long desc, 
         for line in location_data:  # in numerical order (location 0 = locations[0])
             if 'LOCATION' in line:
-                current.append[int(line.split()[1])]
+                current.append(int(line.split()[1]))
             elif line == '\n':
-                locs[current[0]] = Location(current[0], current[1], self.get_location_coords(current[0]), current[2], current[3])
+                if (current[0] != 40 and current[0] != 41 and current[0] != 34):
+                    locs[current[0]] = Location(current[0], current[1], self.get_coords_from_num(current[0]), current[2], current[3])
+                else:
+                    locs[current[0]] = Shop(current[0], current[1], self.get_coords_from_num(current[0]), current[2], current[3])
                 current = []
             else:
-                current.append(str(line))
+                current.append(line.strip())
         return locs
     
     def load_items(self, item_data: TextIO):
         itms = []
         for line in item_data:
             current = line.split(',')
-            itms.append(Item(current[4], int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
+            itms.append(Item(current[5].strip(), int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
+        return itms
 
     def load_shops(self):
         for item in self.items:
-            if (item.x, item.y) == self.get_location_coords(41) or self.get_location_coords(40) or self.get_location_coords(34):
-                self.get_location(item.x, item.y).add_ware(item)
+            if (item.x, item.y) == self.get_coords_from_num(41) or (item.x, item.y) == self.get_coords_from_num(40) or (item.x, item.y) == self.get_coords_from_num(34):
+                self.get_location(item.x, item.y).add_item(item)
 
     def load_npcs(self):
-        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 7, 5), CryingGirl("Crying Girl", 0, 8, 4)]
+        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 5, 7), CryingGirl("Crying Girl", 0, 8, 4)]
 
-    def get_location_coords(self, num):
+    def get_coords_from_num(self, num):
+        """
+        Precondition:
+            - num >= 0
+        """
         for y in range(13):
             for x in range(11):
-                if self.location[y][x] == num:
+                if self.map[y][x] == num:
                     return (x, y)
+        return None
+
+    def get_item_from_name(self, name: str):
+        for item in self.items:
+            if item.name == name:
+                return item
         return None
 
     # NOTE: The method below is REQUIRED. Complete it exactly as specified.
