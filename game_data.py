@@ -30,6 +30,12 @@ class Item:
     Representation Invariants:
         - # TODO
     """
+    name: str
+    x: int
+    y: int
+    target_points: int
+    price: int
+    key_item: bool
 
     def __init__(self, name: str, target_points: int, price: int, x:int, y:int, key_item: str) -> None:
         """Initialize a new item.
@@ -62,130 +68,6 @@ class Item:
         """
         self.x = x
         self.y = y
-
-
-class Location:
-    """A location in our text adventure game world.
-
-    Instance Attributes:
-        - # TODO
-
-    Representation Invariants:
-        - # TODO
-    """
-    num: int
-    name: str
-    x: int
-    y: int
-    short_desc: str
-    long_desc: str
-    visited: bool = False
-    items: list[Item] = []
-    
-    def __init__(self, num, name, pos, short_desc, long_desc) -> None:
-        """Initialize a new location.
-
-        # TODO Add more details here about the initialization if needed
-        """
-
-        # NOTES:
-        # Data that could be associated with each Location object:
-        # a position in the world map,
-        # a brief description,
-        # a long description,
-        # a list of available actions/directions to move,
-        # items that are available in the location,
-        # and whether the location has been visited before.
-        # Store these as you see fit, using appropriate data types.
-        #
-        # This is just a suggested starter class for Location.
-        # You may change/add parameters and the data available for each Location object as you see fit.
-        #
-        # The only thing you must NOT change is the name of this class: Location.
-        # All locations in your game MUST be represented as an instance of this class.
-
-        # TODO: Complete this method
-        self.num = num
-        self.name = name
-        self.x = pos[0]
-        self.y = pos[1]
-        self.short_desc = short_desc
-        self.long_desc = long_desc
-    
-    # TODO: move to adventure.py
-    # def update_actions(self, command: Optional[str] = None, key_item: Optional[Item] = None):
-    #     """
-    #     Return the available actions in this location.
-    #     The actions should depend on the items available in the location
-    #     and the x,y position of this location on the world map.
-
-    #     if key_item exists, then command must also exist
-
-    #     Preconditions:
-    #         - key_item == None or command != None
-    #     """
-    #     # 2 cases: 1. inspecting yields a new option, 
-
-    #     # TODO: Complete this method, if you'd like or remove/replace it if you're not using it
-    #     if command:     #not none
-    #         if self.inspected or key_item in self.items:
-    #             self.actions.append(command)
-    #         elif key_item not in self.items:
-    #             self.actions = ["Look", "Move"]
-    
-    def get_coords(self):
-        return (self.x, self.y)
-    
-    def update_items(self, items = [Item]):
-        for itm in items:
-            if itm.x == self.x and itm.y == self.y:
-                self.items.append(itm)
-    
-    def get_items(self):
-        return(self.items)
-
-    # MOVED TO ADVENTURE.PY
-    # def get_directions(self, world) -> list:
-    #     """ return the possible movement directions from current location [N,S,E,W]
-    #     """
-    #     directions = []
-    #     # North
-    #     if world.get_location(self.x, self.y - 1) is not None:
-    #         directions.append(self.N)
-    #     #South
-    #     if world.get_location(self.x, self.y + 1) is not None:
-    #         directions.append(self.S)
-    #     #East
-    #     if world.get_location(self.x + 1, self.y) is not None:
-    #         directions.append(self.E)
-    #     #West
-    #     if world.get_location(self.x - 1, self.y) is not None:
-    #         directions.append(self.W)
-    #     return directions
-    
-    # print actions:
-    def print_desc(self) -> None:
-        """to be printed when player enters an area.
-        """
-        print(f"LOCATION: {self.name} - {self.num}\n")
-        if self.visited:
-            print(self.short_desc)
-        else:
-            print(self.long_desc)
-    
-    #TODO: move to adventure.py
-    # def print_actions(self) -> None:
-    #     for action in self.actions:
-    #         print("What to do?")
-    #         print(f"[{action}]", end = '\t')
-    
-    def print_look(self):
-        print(self.long_desc)
-    
-    #TODO: move to adventure.py
-    # def print_directions(self) -> None:
-    #     for direction in self.get_directions():
-    #         print(f"[{direction}]", end = '\t')
 
 
 class Wallet:
@@ -222,23 +104,6 @@ class Wallet:
         self.money += amount
 
 
-def helper_wallet():
-    # Example usage
-    player_wallet = Wallet()
-    player_wallet.display_balance()
-
-    # Attempt to buy an item costing $30
-    if player_wallet.buy(30):
-        player_wallet.display_balance()
-    else:
-        print("Failed to make the purchase.")
-
-    # Attempt to buy another item costing $60
-    if player_wallet.buy(60):
-        player_wallet.display_balance()
-    else:
-        print("Failed to make the purchase.")
-
 class Player:
     """
     A Player in the text advanture game.
@@ -250,11 +115,15 @@ class Player:
     Representation Invariants:
         - self.Inventory >= []
     """
-    inventory: []
-    vicotry :bool
-    score :int
+    x: int
+    y: int
+    inventory: list[Item]
     wallet: Wallet
-    steps: int = 0
+    morale: int
+    steps: int
+    _deposited: set[Item] # for key items
+    has_running_shoes: bool
+    victory: bool
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -264,14 +133,18 @@ class Player:
         # NOTES:
         # This is a suggested starter class for Player.
         # You may change these parameters and the data available for the Player object as you see fit.
+        # morale is equivalent to score
 
         self.x = x
         self.y = y
+        # self.location = (x, y)
         self.inventory = []
-        self.victory = False
-        self.score = 0
-        self.location = (x, y)
+        self.wallet = Wallet()
+        self.morale = 0
+        self.steps = 0
         self._deposited = set() # for key items
+        self.has_running_shoes = False
+        self.victory = False
 
     # def move(self, dx, dy):
     #     self.x += dx
@@ -292,25 +165,17 @@ class Player:
     #                 return
     #         print("Invalid direction.")
     def move(self, dir):        # check for out of bounds in adventure.py
-        if dir == "North":
+        if dir == "NORTH":
             self.y -= 1
-        elif dir == "South":
+        elif dir == "SOUTH":
             self.y += 1
-        elif dir == "East":
+        elif dir == "EAST":
             self.x += 1
-        elif dir == "West":
+        elif dir == "WEST":
             self.x -= 1
-        
-        for itm in self.inventory:
-            if itm.name == "Running Shoes":
-                self.steps += 1
-                break
-        else:
-            self.steps += 2
 
-
-    def print_score(self, score):
-        print(f"Your score is {self.score}")
+    def print_morale(self, morale):
+        print(f"Your morale is {self.morale}")
 
     def display_inventory(self) -> None:
         """Display the items in the player's inventory.
@@ -323,7 +188,7 @@ class Player:
                 print(item + ",", " ")
     
     def print_steps(self):
-        print(f"It is {8 + self.score // 60}: {self.score % 60}. Your exam starts at 5:30!")
+        print(f"It is {8 + self.morale // 60}: {self.morale % 60}. Your exam starts at 5:30!")
 
     def pick_up(self, item: Item):
         """Add an item to the player's inventory.
@@ -333,7 +198,7 @@ class Player:
         item.update_location(None, None)
         print(f"You picked up {item}.")
 
-    def take_out(self, item, at_ex: bool):      #at_ex: if we are at exam centre
+    def take_out(self, item: Item, at_ex: bool):      #at_ex: if we are at exam centre
         """Remove an item from the player's inventory.
         """
         if item in self.inventory and not at_ex and not item.key_item:
@@ -342,12 +207,12 @@ class Player:
         elif item in self.inventory and at_ex and item.key_item:
             self.inventory.remove(item)
             self._deposited.add(item)
-            self.score += item.score
+            self.morale += item.target_points
             print(f"Deposited {item} at the Exam Centre!")
         else:
             print(f"Could not give {item}.")
 
-    def drop(self, item):
+    def drop(self, item: Item):
         """Drop an item from the player's inventory at a specified location
             item: The item to drop from the inventory.
             location: The location where the item is dropped.
@@ -356,17 +221,30 @@ class Player:
         if item in self.inventory and not item.key_item:
             self.inventory.remove(item)
             item.update_location(self.x, self.y)
+            if item.name == "Running Shoes":
+                self.has_running_shoes = False
             print(f"You dropped {item.name}.")
         else:
             print(f"Could not drop {item.name}.")
     
     def update_victory(self):
-        if self.score > 600 and len(self._deposited) == 3:
+        if self.morale > 600 and len(self._deposited) == 3:
             self.victory = True
 
-    def update_moves(self):
-        self.moves += 1
+    def update_steps(self):
+        if self.has_running_shoes:
+            self.steps += 1
+        else:
+            self.steps += 2
     
+    def update_deposited(self, item):
+        self._deposited.add(item)
+
+    def got_running_shoes(self):
+        self.has_running_shoes = True
+    
+    def dropped_running_shoes(self):
+        self.has_running_shoes = False
 
 class NPC:
     """Base class for Non-Playable Characters (NPCs) in the text adventure game.
@@ -375,31 +253,32 @@ class NPC:
         - name (str): The name of the NPC.
         - happiness (int): The happiness level of the NPC.
         - money (int): The amount of money the NPC has.
-        - score (int): The score or morale of the NPC.
+        - morale (int): The morale or morale of the NPC.
     """
 
-    def __init__(self, name: str, money: int, score: int) -> None:
+    def __init__(self, name: str, money: int, x: int, y: int) -> None:
         """Initialize a new NPC.
         """
         self.name = name
         self.money = money
-        self.score = score
+        self.x = x
+        self.y = y
 
     def talk(self) -> None:
         """NPC talks."""
         print(f"{self.name} says: Hello! How are you today?")
 
-    def rob(self, player) -> None:
+    def get_robbed(self, player) -> None:
         """Player attempts to rob the NPC."""
         print(f"You attempt to rob {self.name}.")
-        if self._rob_attempt():
+        if self._rob_attempt() and self.money > 0:
             print(f"You successfully rob {self.name}!")
             player.wallet.earn(self.money)
             self.money = 0
-            self.score -= 5
+            player.morale -= 5
         else:
             print(f"Your robbery attempt on {self.name} fails!")
-            self.score -= 2
+            player.morale -= 5
 
     def leave(self) -> None:
         """NPC leaves."""
@@ -409,17 +288,14 @@ class NPC:
         """Simulate a robbery attempt."""
         # Override this method in subclasses to customize robbery behavior.
         return False
-
-# Subclasses????
+    
+    def prompt(self, player: Player, items: [Item]) -> None:
+        pass
 
 class RichLady(NPC):
     """A rich lady NPC."""
 
-    def _rob_attempt(self) -> bool:
-        """Robbery attempt for RichLady (always succeeds)."""
-        return True
-
-    def harass_player(self, player) -> None:
+    def prompt(self, player) -> None:
         """RichLady harasses the player."""
         print(f"{self.name} looks at you with sideeyes and says: What are you doing here? You don't belong!")
         print("Options:")
@@ -431,22 +307,23 @@ class RichLady(NPC):
         choice = input("Enter your choice (1, 2, 3, or 4): ")
         if choice == '1':
             print("You respond calmly and try to defuse the situation.")
-            player.score += 2
+            player.morale += 2
         elif choice == '2':
-            print("You insult her back, but it only escalates the situation.")
-            player.score -= 3
+            print("You insult her back, but it doesn't helps the situation.")
+            player.morale -= 3
         elif choice == '3':
-            print("You decide to attempt to rob her in response to the harassment.")
-            self._rob_attempt(player)
+            print("You decide to attempt to rob her.")
+            self.get_robbed(player)
         elif choice == '4':
             print("You decide to leave to avoid further confrontation.")
         else:
             print("Invalid choice. You decide to leave.")
 
+
 class CryingGirl(NPC):
     """A crying girl NPC."""
 
-    # def __init__(self, name: str, happiness: int, money: int, score: int, has_baby_rock: bool = False) -> None:
+    # def __init__(self, name: str, happiness: int, money: int, morale: int, has_baby_rock: bool = False) -> None:
     #     """Initialize a new CryingGirl.
     #     """
     #     self.has_baby_rock = has_baby_rock
@@ -456,39 +333,46 @@ class CryingGirl(NPC):
         """Robbery attempt for CryingGirl (always fails)."""
         return False
 
-    def request_baby_rock(self, player) -> None:
+    def prompt(self, player) -> None:
         """CryingGirl talks to the player and requests them to find a baby rock."""
         print(f"{self.name}: *Sob* Oh dear, oh dear... Could you please find a baby rock for me? It means a lot. *Sob*")
         print("Options:")
-        print("1. Find the baby rock.")
-        print("2. Leave.")
+        print("1.Give baby rock.")
+        print("2. Rob")
+        print("3. Leave.")
 
         choice = input("Enter your choice (1 or 2): ")
         if choice == '1':
-            self.find_baby_rock(player)
+            self.give_baby_rock(player)
         elif choice == '2':
+            print("You decide to attempt to rob her.")
+            self.get_robbed(player)
+        elif choice == '3':
             print("You decide to leave.")
         else:
             print("Invalid choice. You decide to leave.")
 
-    def find_baby_rock(self, player) -> None:
+    def give_baby_rock(self, player: Player) -> None:
         """Player finds the crying girl's baby rock."""
         if not self.has_baby_rock:
-            print(f"You find a baby rock near {self.name}.")
-            player.pick_up("Baby Rock")
-            self.has_baby_rock = True
-            player.score += 3
-            print("You feel a sense of accomplishment and gain happiness!")
+            for item in player.inventory:
+                if item.name == "Baby Rock":
+                    player.take_out(item)
+                    self.has_baby_rock = True
+                    player.morale += 3
+                    print("Crying Girl: You found my baby!!! Thank you so much!")
+                    print("You feel a sense of accomplishment.")
+                    break
+            if not self.has_baby_rock:      # rock not in inventory
+                print("You do not have the rock in your inventory.")
         else:
-            print(f"You've already found the baby rock near {self.name}.")
-            player.score += 1
-            print("You feel a bit better about yourself.")
-
+            print(f"You've already found the baby rock. It's nice to have done a good deed.")
+            player.morale += 1
 
 class MiserableStudent(NPC):
     """A miserable student NPC."""
 
-    # def __init__(self, name: str, happiness: int, money: int, score: int, has_food: bool = False) -> None:
+    # def __init__(self, name: str, happiness: int, money: int, morale: int, has_food: bool = False) -> None:
     #     """Initialize a new MiserableStudent.
     #     """
     #     self.has_food = has_food
@@ -499,7 +383,7 @@ class MiserableStudent(NPC):
         """Robbery attempt for MiserableStudent (always succeeds)."""
         return True
 
-    def ask_for_food(self, player, items: [Item]) -> None:
+    def prompt(self, player, items: list[Item]) -> None:
         """MiserableStudent talks to the player about finals and asks for food."""
         print(
             f"{self.name} looks stressed and says: I have final exams coming up, and I'm starving...")
@@ -507,11 +391,12 @@ class MiserableStudent(NPC):
         # Check if the player has already bought food for the student
         if self.has_food:
             print("You've already bought food for the student. They look grateful.")
-            player.score += 2
+            player.morale += 2
         else:
             print("Options:")
             print("1. Give food")
-            print("2. Refuse and leave.")
+            print("2. Attempt to Rob them")
+            print("3. Refuse and leave.")
 
             choice = input("Enter your choice (1 or 2): ")
             if choice == '1':
@@ -519,43 +404,159 @@ class MiserableStudent(NPC):
                 player.display_inventory()
                 inp = input().lower()
                 if inp == "candy" or inp == "hot chocolate":
-                    for i in items:
+                    for i in player.inventory:
                         if i.name.lower() == inp:
-                            self.take_out(i)
+                            player.take_out(i)
                             break
                     print("You give the student some candy.")
                     print(f"{self.name}: Ahh sugar... Sugar!! I can feel the glucose (C6H12O6) running through my veins!\
                            Speaking of running, hear's a gift for you. It seems that you're in a bit of a rush, so this might help!")
                     for i in items:
                         if i.name == "Running Shoes":
-                            self.pick_up(i)
+                            player.pick_up(i)
+                            player.got_running_shoes()
                             break
                 else:
                     print(f"{self.name}: That's not food...")
             elif choice == '2':
+                print("You decide to attempt to rob them.")
+                self.get_robbed(player)
+            elif choice == '3':
                 print("You decide to refuse and leave.")
             else:
                 print("Invalid choice. You decide to leave.")
 
 
-class Shop(Location):
+class Location:
+    """A location in our text adventure game world.
+
+    Instance Attributes:
+        - # TODO
+
+    Representation Invariants:
+        - # TODO
+    """
     num: int
     name: str
     x: int
     y: int
     short_desc: str
     long_desc: str
-    visited: bool = False
-    wares: list[Item]
+    visited: bool
+    items: list[Item]
+    npc: NPC      # there's only gonna be at most one npc at each loc anyway
+    
+    def __init__(self, num, name, pos, short_desc, long_desc) -> None:
+        """Initialize a new location.
 
-    def add_ware(self, itm: Item):
-        self.append(itm)
+        # TODO Add more details here about the initialization if needed
+        """
 
+        # NOTES:
+        # Data that could be associated with each Location object:
+        # a position in the world map,
+        # a brief description,
+        # a long description,
+        # a list of available actions/directions to move,
+        # items that are available in the location,
+        # and whether the location has been visited before.
+        # Store these as you see fit, using appropriate data types.
+        #
+        # This is just a suggested starter class for Location.
+        # You may change/add parameters and the data available for each Location object as you see fit.
+        #
+        # The only thing you must NOT change is the name of this class: Location.
+        # All locations in your game MUST be represented as an instance of this class.
+
+        # TODO: Complete this method
+        self.num = num
+        self.name = name
+        self.x = pos[0]
+        self.y = pos[1]
+        self.short_desc = short_desc
+        self.long_desc = long_desc
+        self.visited = False
+        self.items = []
+        self.npc = None
+    
+    # TODO: move to adventure.py
+    # def update_actions(self, command: Optional[str] = None, key_item: Optional[Item] = None):
+    #     """
+    #     Return the available actions in this location.
+    #     The actions should depend on the items available in the location
+    #     and the x,y position of this location on the world map.
+
+    #     if key_item exists, then command must also exist
+
+    #     Preconditions:
+    #         - key_item == None or command != None
+    #     """
+    #     # 2 cases: 1. inspecting yields a new option, 
+    def get_items(self):
+        return(self.items)
+  
+    def get_coords(self):
+        return (self.x, self.y)
+    
+    def get_npc(self):
+        return(self.npc)
+
+    def add_item(self, item = Item):
+        self.items.append(item)
+    
+    def remove_item(self, item = Item):
+        self.items.remove(item)
+    
+    def add_npc(self, enpeecee = NPC):
+        self.npc = enpeecee
+
+    # MOVED TO ADVENTURE.PY
+    # def get_directions(self, world) -> list:
+    #     """ return the possible movement directions from current location [N,S,E,W]
+    #     """
+    #     directions = []
+    #     # North
+    #     if world.get_location(self.x, self.y - 1) is not None:
+    #         directions.append(self.N)
+    #     #South
+    #     if world.get_location(self.x, self.y + 1) is not None:
+    #         directions.append(self.S)
+    #     #East
+    #     if world.get_location(self.x + 1, self.y) is not None:
+    #         directions.append(self.E)
+    #     #West
+    #     if world.get_location(self.x - 1, self.y) is not None:
+    #         directions.append(self.W)
+    #     return directions
+    
+    # print actions:
+    def print_desc(self) -> None:
+        """to be printed when player enters an area.
+        """
+        print(f"LOCATION: {self.name} - {self.num}\n")
+        if self.visited:
+            print(self.short_desc)
+        else:
+            print(self.long_desc)
+        if self.items:
+            print("There are some items in the vicinity: ")
+        for item in self.items:
+            print(item.name, "\t")
+    
+    def print_look(self):
+        print(self.long_desc)
+    
+
+
+class Shop(Location):
+
+    # NOTE!!!!! STATIC VAR VS INSTANCE VAR -- MAKE SURE SHADOWS CORRECTLY!
     def print_wares(self):
-        print("ITEM \tPRICE")
-        for itm in self.wares:
-            print(f"{itm.name}:\t${itm.price}")
+        print("ITEM              PRICE")
+        for itm in self.items:
+            spaces = 20 - len(itm.name)
+            print(f"{itm.name}:{" " * spaces}${itm.price}")
 
     def sold(self, item):      # pair in adventure.py w/ wallet decrease
         print("Thank you for your purchase!")
-        self.wares.pop(item)
+        self.remove_item(item)

@@ -21,55 +21,131 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 from game_data import Item, Location, Player
 from world import World
 
-N, E, S, W = "North", "East", "South", "West"   #move into get_directions if not needed
+N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
 # Note: You may add helper functions, classes, etc. here as needed
-def get_directions(world: World, player) -> list:
+def get_directions() -> list:
     """ return the possible movement directions from current location [N,S,E,W]
     """
     directions = []
     # North
-    if world.get_location(player.x, player.y - 1) is not None:
+    if w.get_location(p.x, p.y - 1) is not None:
         directions.append(N)
     #South
-    if world.get_location(player.x, player.y + 1) is not None:
+    if w.get_location(p.x, p.y + 1) is not None:
         directions.append(S)
     #East
-    if world.get_location(player.x + 1, player.y) is not None:
+    if w.get_location(p.x + 1, p.y) is not None:
         directions.append(E)
     #West
-    if world.get_location(player.x - 1, player.y) is not None:
+    if w.get_location(p.x - 1, p.y) is not None:
         directions.append(W)
     return directions
+
+# Updating items and init npc in Location Class
+def add_item_to_loc(item: Item):
+    location.add_item(item)
+def remove_item_from_loc(item: Item):
+    location.remove_item(item)
+def init_items_and_npc_to_loc():
+    for item in w.items:
+        for location in w.locations:
+            if (item.x, item.y) == (location.x, location.y):
+                add_item_to_loc(item)
+    for npc in w.npcs:
+        for location in w.locations:
+            if (npc.x, npc.y) == (location.x, location.y):
+                location.add_npc(npc)
+
+# Prompts for player:
+def menu_prompt():
+    print("Menu Options:")
+    for option in menu:
+        print(option, "\t")
+    choice = input("\nChoose action: ").upper()
+    if choice == "INVENTORY":
+        p.display_inventory()
+    elif choice == "MORALE":
+        print(p.print_morale())
+    elif choice == "TIME":
+        print(p.print_steps())
+    elif choice == "QUIT GAME":
+        quit()
+    elif choice != "BACK":
+        print("Invalid input!")
+        menu_prompt()
+def move_prompt():
+    print("Where to go?")
+    dirs = get_directions()
+    for dir in dirs:
+        print(dir, "\t")
+    print("BACK")
+    choice = input("Enter direction: ").upper()
+    if choice in dirs:
+        p.move(choice)
+    elif choice != "BACK":
+        print("Invalid direction!")
+        move_prompt()
+def drop_prompt(loc_num):
+    selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").upper()
+    item = w.get_item_from_name(selected_item)
+    if item:
+        if not item.key_item and not loc_num != 39:
+            p.drop(item)
+            print(f"Dropped {item.name}.")
+        elif item and item.key_item and loc_num == 39:
+            p.take_out(item)
+            print(f"Deposited {item.name}!")
+            p.update_deposited(item)
+        else:
+            print("Cannot drop this item here!")
+    elif selected_item != "BACK":
+        print("Invalid item!")
+        drop_prompt()
+def pick_up_prompt():
+    selected_item = w.input("\nPick up which item? (enter 'BACK' to go back) ").title()
+    for item in location.items:
+        if selected_item in item.name:
+            p.pick_up(w.get_item_from_name(selected_item))
+            #TODO: UPDATE ITEMS VAR FOR LOCATION
+        elif selected_item != 'Back':
+            print("Invalid item!")
+            pick_up_prompt()
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
     with open('map.txt') as map_file, open('locations.txt') as location_file, open('items.txt') as item_file:
         w = World(map_file, location_file, item_file)
-    
-    p = Player(0, 0)  # set starting location of player; you may change the x, y coordinates here as appropriate
+    p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
+    menu = ["INVENTORY", "MORALE", "TIME", "BACK", "QUIT GAME"]
 
-
-    menu = ["LOOK", "MOVE", "INVENTORY", "SCORE", "TIME", "QUIT"]
+    init_items_and_npc_to_loc()
 
     while not p.victory:
         location = w.get_location(p.x, p.y)
+        location.print_desc()
 
-        # TODO: ENTER CODE HERE TO PRINT LOCATION DESCRIPTION
-        # Depending on whether or not it's been visited before,
-        # print either full description (first time visit) or brief description (every subsequent visit)
+        print("\nWhat to do?")
+        print("MOVE\tLOOK\tPICK UP\tDROP\tMENU")
 
-        print("What to do? \n")
-        print("[menu]")
-        for action in location.available_actions():
-            print(action)
-        choice = input("\nEnter action: ")
+        choice = input("\nEnter action: ").upper()
 
-        if choice == "[menu]":
-            print("Menu Options: \n")
-            for option in menu:
-                print(option)
-            choice = input("\nChoose action: ")
+        if choice == "MENU":
+            menu_prompt()
+        elif choice == "MOVE":
+            move_prompt()
+        elif choice == "LOOK":
+            print(location.long_desc)
+        elif choice == "DROP":
+            drop_prompt(w.get_location(p.x, p.y).num)
+        elif choice == "PICK UP":
+            if location.get_items():
+                pick_up_prompt()
+            else:
+                print("There are no items to pick up.")
+        else:
+            print("Invalid option!")
+
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
