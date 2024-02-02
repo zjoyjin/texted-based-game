@@ -453,6 +453,9 @@ class Location:
         self.y = pos[1]
         self.short_desc = short_desc
         self.long_desc = long_desc
+        self.visited = False
+        self.items = []
+        self.npc = None
     
     # TODO: move to adventure.py
     # def update_actions(self, command: Optional[str] = None, key_item: Optional[Item] = None):
@@ -524,17 +527,13 @@ class Location:
 
 
 class Shop(Location):
-    num: int
-    name: str
-    x: int
-    y: int
-    short_desc: str
-    long_desc: str
-    visited: bool = False
-    wares: list[Item]
+
+    # NOTE!!!!! STATIC VAR VS INSTANCE VAR -- MAKE SURE SHADOWS CORRECTLY!
+
+    wares: list[Item] = []
 
     def add_ware(self, itm: Item):
-        self.append(itm)
+        self.wares.append(itm)
 
     def print_wares(self):
         print("ITEM \tPRICE")
