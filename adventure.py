@@ -42,10 +42,22 @@ def get_directions() -> list:
         directions.append(W)
     return directions
 
-#TODO
-def update_location_items():
-    pass
+# Updating items and init npc in Location Class
+def add_item_to_loc(item: Item):
+    location.add_item(item)
+def remove_item_from_loc(item: Item):
+    location.remove_item(item)
+def init_items_and_npc_to_loc():
+    for item in w.items:
+        for location in w.locations:
+            if (item.x, item.y) == (location.x, location.y):
+                add_item_to_loc(item)
+    for npc in w.npcs:
+        for location in w.locations:
+            if (npc.x, npc.y) == (location.x, location.y):
+                location.add_npc(npc)
 
+# Prompts for player:
 def menu_prompt():
     print("Menu Options:")
     for option in menu:
@@ -62,7 +74,6 @@ def menu_prompt():
     elif choice != "BACK":
         print("Invalid input!")
         menu_prompt()
-
 def move_prompt():
     print("Where to go?")
     dirs = get_directions()
@@ -75,51 +86,48 @@ def move_prompt():
     elif choice != "BACK":
         print("Invalid direction!")
         move_prompt()
-
-def drop_prompt():
+def drop_prompt(loc_num):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").upper()
     item = w.get_item_from_name(selected_item)
     if item:
-        p.drop(item)
+        if not item.key_item and not loc_num != 39:
+            p.drop(item)
+            print(f"Dropped {item.name}.")
+        elif item and item.key_item and loc_num == 39:
+            p.take_out(item)
+            print(f"Deposited {item.name}!")
+            p.update_deposited(item)
+        else:
+            print("Cannot drop this item here!")
     elif selected_item != "BACK":
         print("Invalid item!")
         drop_prompt()
-
 def pick_up_prompt():
-    item_names = {}
-    for item in location.items:
-        item_names.add(item.name)
-        print(item.name, "\t")
     selected_item = w.input("\nPick up which item? (enter 'BACK' to go back) ").title()
-    if selected_item in item_names:
-        p.pick_up(w.get_item_from_name(selected_item))
-        #TODO: UPDATE ITEMS VAR FOR LOCATION
-    elif selected_item != 'Back':
-        print("Invalid item!")
-        pick_up_prompt()
+    for item in location.items:
+        if selected_item in item.name:
+            p.pick_up(w.get_item_from_name(selected_item))
+            #TODO: UPDATE ITEMS VAR FOR LOCATION
+        elif selected_item != 'Back':
+            print("Invalid item!")
+            pick_up_prompt()
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
     with open('map.txt') as map_file, open('locations.txt') as location_file, open('items.txt') as item_file:
         w = World(map_file, location_file, item_file)
-    
-    p = Player(0, 0)  # set starting location of player; you may change the x, y coordinates here as appropriate
-
-
+    p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
     menu = ["INVENTORY", "MORALE", "TIME", "BACK", "QUIT GAME"]
+
+    init_items_and_npc_to_loc()
 
     while not p.victory:
         location = w.get_location(p.x, p.y)
-        if location.visited:
-            print(location.short_desc)
-        else:
-            print(location.long_desc)
+        location.print_desc()
 
-        print("What to do?")
+        print("\nWhat to do?")
         print("MOVE\tLOOK\tPICK UP\tDROP\tMENU")
 
-        # for action in location.available_actions():
-        #     print(action)
         choice = input("\nEnter action: ").upper()
 
         if choice == "MENU":
@@ -129,13 +137,14 @@ if __name__ == "__main__":
         elif choice == "LOOK":
             print(location.long_desc)
         elif choice == "DROP":
-            drop_prompt()
+            drop_prompt(w.get_location(p.x, p.y).num)
         elif choice == "PICK UP":
-            if location.items:
+            if location.get_items():
                 pick_up_prompt()
             else:
                 print("There are no items to pick up.")
-
+        else:
+            print("Invalid option!")
 
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
