@@ -144,7 +144,7 @@ LOCATION 26
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-To your left you saw a crying girl.
+To your left you see a crying girl.
 
 LOCATION 27
 Queens Park
@@ -190,7 +190,7 @@ LOCATION 35
 Robarts F1
 You are inside the first floor Robarts library.
 You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. The lights are dim,
-the only thing you could hear is your own foot step. Is everyone on a vacation?
+the only thing you could hear is your own foot step. Is everyone on vacation?
 
 LOCATION 36
 Robarts F2
@@ -235,24 +235,22 @@ a cozy atmosphere.
 LOCATION 42
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
-and pathways lead to various academic buildings. You saw a students sitting in the middle of the circle, he seems upset.
+and pathways lead to various academic buildings.
 
 LOCATION 43
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
-and pathways lead to various academic buildings. You saw a students sitting in the middle of the circle, he seems upset.
-Are you going to go up and talk to him?
+and pathways lead to various academic buildings.
 
 LOCATION 44
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
-and pathways lead to various academic buildings. You saw a students sitting in the middle of the circle, he seems upset.
+and pathways lead to various academic buildings.
 
 LOCATION 45
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
-and pathways lead to various academic buildings. You saw a students sitting in the middle of the circle, he seems upset.
-Are you going to go up and talk to him?
+and pathways lead to various academic buildings. You see a student sitting in the middle of the circle. They seem upset.
 
 LOCATION 46
 SANDFORD FLEMING
