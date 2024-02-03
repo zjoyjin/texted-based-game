@@ -94,7 +94,7 @@ class World:
                 self.get_location(item.x, item.y).add_item(item)
 
     def load_npcs(self):
-        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 5, 7), CryingGirl("Crying Girl", 0, 8, 4)]
+        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 5, 7), CryingGirl("Crying Girl", 0, 7, 4)]
 
     def get_coords_from_num(self, num):
         """
