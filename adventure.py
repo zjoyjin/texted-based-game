@@ -24,7 +24,7 @@ from world import World
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
 # Note: You may add helper functions, classes, etc. here as needed
-def get_directions() -> list:
+def get_directions(w: World, p: Player) -> list:
     """ return the possible movement directions from current location [N,S,E,W]
     """
     directions = []
@@ -43,11 +43,11 @@ def get_directions() -> list:
     return directions
 
 # Updating items and init npc in Location Class
-def add_item_to_loc(item: Item):
+def add_item_to_loc(location: Location, item: Item):
     location.add_item(item)
-def remove_item_from_loc(item: Item):
+def remove_item_from_loc(location: Location, item: Item):
     location.remove_item(item)
-def init_items_and_npc_to_loc():
+def init_items_and_npc_to_loc(w: World):
     for item in w.items:
         for location in w.locations:
             if (item.x, item.y) == (location.x, location.y):
@@ -58,7 +58,7 @@ def init_items_and_npc_to_loc():
                 location.add_npc(npc)
 
 # Prompts for player:
-def menu_prompt():
+def menu_prompt(p: Player):
     print("Menu Options:")
     for option in menu:
         print(option, "\t")
@@ -73,10 +73,10 @@ def menu_prompt():
         quit()
     elif choice != "BACK":
         print("Invalid input!")
-        menu_prompt()
-def move_prompt():
+        menu_prompt(p)
+def move_prompt(w: World, p: Player):
     print("Where to go?")
-    dirs = get_directions()
+    dirs = get_directions(w, p)
     for dir in dirs:
         print(dir, "\t")
     print("BACK")
@@ -86,8 +86,8 @@ def move_prompt():
         p.update_steps()
     elif choice != "BACK":
         print("Invalid direction!")
-        move_prompt()
-def drop_prompt():
+        move_prompt(1, p)
+def drop_prompt(w: World, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in p.inventory:
@@ -99,8 +99,8 @@ def drop_prompt():
             print("Cannot drop this item here!")
     elif selected_item != "Back":
         print("Invalid item!")
-        drop_prompt()
-def pick_up_prompt():
+        drop_prompt(w, p)
+def pick_up_prompt(w: World, p: Player):
     selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in location.items:
@@ -108,9 +108,9 @@ def pick_up_prompt():
         remove_item_from_loc(item)
     elif selected_item != 'Back':
         print("Invalid item!")
-        pick_up_prompt()
+        pick_up_prompt(w, p)
 #TODO:
-def buy_prompt():
+def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
     location.print_wares()
     selected_item = input("What to buy? (enter 'BACK' to go back)").title()
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
     menu = ["INVENTORY", "MORALE", "TIME", "BACK", "QUIT GAME"]
 
-    init_items_and_npc_to_loc()
+    init_items_and_npc_to_loc(w)
 
     while not p.victory:
         location = w.get_location(p.x, p.y)
@@ -146,17 +146,17 @@ if __name__ == "__main__":
         choice = input("\nEnter action: ").upper()
 
         if choice == "MENU":
-            menu_prompt()
+            menu_prompt(p)
         elif choice == "MOVE":
-            move_prompt()
+            move_prompt(w, p)
         elif choice == "LOOK":
             print(location.long_desc)
         elif choice == "DROP":
-            drop_prompt()
+            drop_prompt(w, p)
         #NOTE: change v for the puzzle and stuff
         elif choice == "PICK UP":
             if location.get_items():
-                pick_up_prompt()
+                pick_up_prompt(w, p)
             else:
                 print("There are no items to pick up.")
         elif choice == "TALK" and location.npc:
@@ -166,7 +166,7 @@ if __name__ == "__main__":
             else:
                 npc.prompt(p)
         elif choice == "BUY" and isinstance(location, Shop):
-            buy_prompt()
+            buy_prompt(location, p)
         else:
             print("Invalid option!")
 
