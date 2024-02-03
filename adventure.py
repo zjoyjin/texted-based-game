@@ -51,7 +51,7 @@ def init_items_and_npc_to_loc(w: World):
     for item in w.items:
         for location in w.locations:
             if (item.x, item.y) == (location.x, location.y):
-                add_item_to_loc(item)
+                add_item_to_loc(location, item)
     for npc in w.npcs:
         for location in w.locations:
             if (npc.x, npc.y) == (location.x, location.y):
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     init_items_and_npc_to_loc(w)
 
-    while not p.victory:
+    while not p.check_victory():
         location = w.get_location(p.x, p.y)
         location.print_desc()
 
