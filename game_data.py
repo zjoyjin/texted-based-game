@@ -226,15 +226,11 @@ class Player:
             self.has_running_shoes = False
         print(f"You dropped {item.name}.")
 
-
     def update_steps(self):
         if self.has_running_shoes:
             self.steps += 1
         else:
             self.steps += 2
-    
-    def update_deposited(self, item):
-        self._deposited.add(item)
 
     def got_running_shoes(self):
         self.has_running_shoes = True
