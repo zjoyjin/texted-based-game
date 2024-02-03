@@ -186,7 +186,7 @@ class Player:
                 print(item.name, ",", " ")
     
     def print_steps(self):
-        print(f"It is {8 + self.morale // 60}: {self.morale % 60}. Your exam starts at 5:30!")
+        print(f"It is {8 + self.steps // 60}: {self.steps % 60}. Your exam starts at 5:30!")
 
     def pick_up(self, item: Item):
         """Add an item to the player's inventory.
@@ -291,6 +291,10 @@ class NPC:
 
 class RichLady(NPC):
     """A rich lady NPC."""
+    def _rob_attempt(self) -> bool:
+        """Simulate a robbery attempt."""
+        # Override this method in subclasses to customize robbery behavior.
+        return True
 
     def prompt(self, player) -> None:
         """RichLady harasses the player."""
@@ -414,7 +418,7 @@ class MiserableStudent(NPC):
                             player.got_running_shoes()
                             break
                 else:
-                    print(f"{self.name}: That's not food...")
+                    print(f"{self.name}: That's not food... Go to 7-11 and get me some food")
             elif choice == '2':
                 print("You decide to attempt to rob them.")
                 self.get_robbed(player)

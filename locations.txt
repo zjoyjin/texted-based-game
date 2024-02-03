@@ -86,17 +86,17 @@ You are at a sidewalk, you should probably hurry up and find all the things you 
 LOCATION 17
 Pathway
 You are at a sidewalk.
-You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
+You are at a sidewalk, you saw a rich lady to your north. you should probably hurry up and find all the things you need for the exam.
 -
 LOCATION 18
 Pathway
 You are at a sidewalk.
-You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
+You are at a sidewalk, you saw a rich lady, try to talk to her?
 -
 LOCATION 19
 Pathway
 You are at a sidewalk.
-You are at a sidewalk, you saw 7-11 to your east. You should probably hurry up and find all the things you need for the exam.
+You are at a sidewalk, you saw 7-11 to your east. And you saw a rich lady south. You should probably hurry up and find all the things you need for the exam.
 -
 LOCATION 20
 Pathway
@@ -221,17 +221,17 @@ There's a new fountain at the center, with big fields of grass, and pathways lea
 LOCATION 43
 KINGS CIRCLE
 You are at King's Circle, a central point on campus.
-There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings.
+There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings. You saw a sad student to your south.
 -
 LOCATION 44
 KINGS CIRCLE
 You are at King's Circle, a central point on campus.
-There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings.
+There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings. You saw a sad student to your east.
 -
 LOCATION 45
 KINGS CIRCLE
 You are at King's Circle, a central point on campus.
-There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings. You see a student sitting in the middle of the circle. They seem upset.
+There's a new fountain at the center, with big fields of grass, and pathways lead to various academic buildings. You see a student sitting on the grass. He seem upset.
 -
 LOCATION 46
 SANDFORD FLEMING

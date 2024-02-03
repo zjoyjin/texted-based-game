@@ -20,6 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop
 from world import World
+from Enhancement import examine, type_code
 
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
@@ -109,6 +110,18 @@ def pick_up_prompt(w: World, p: Player):
     elif selected_item != 'Back':
         print("Invalid item!")
         pick_up_prompt(w, p)
+
+def robarts_first_floor_puzzle(p: Player, location: Location):
+    """Checks if the player is at the specified location and triggers the Robarts Library puzzle.
+        player_location: The current location of the player.
+    """
+    x, y = 2, 5
+
+    if (p.x, p.y) == (x, y):
+        examine()
+    else:
+        print("You are not at the specified location.")
+
 #TODO:
 def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
