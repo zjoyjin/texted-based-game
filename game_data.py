@@ -536,11 +536,13 @@ class Location:
         else:
             print(self.long_desc)
             self.visited = True
+
+    def print_items(self) -> None:
         if self.items:
             print("There are some items in the vicinity: ")
         for item in self.items:
             print(item.name, "\t")
-    
+
     def print_look(self):
         print(self.long_desc)
     
