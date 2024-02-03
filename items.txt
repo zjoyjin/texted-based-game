@@ -1,11 +1,11 @@
-1,10,5,0,True,Cheat Sheet
-x,y,5,0,True,Luck Pen
-x,y,5,0,True,T Card
-x,y,0,10,False,Hot Chocolate
-x,y,0,5,False,Candy
-x,y,0,20,True,running shoe
-x,y,0,10,False,Umbrella
-x,y,0,10,False,Pass Exam
-x,y,0.50,False,UofT Hoodie
-x,y,20,0,False,Baby Rock
+7,4,5,0,True,Cheat Sheet
+3,8,5,0,True,Luck Pen
+1,4,5,0,True,T Card
+9,7,0,10,False,Hot Chocolate
+9,7,0,5,False,Candy
+4,6,0,20,True,running shoe
+9,7,0,10,False,Umbrella
+1,9,0,10,False,Pass Exam
+1,9,0.50,False,UofT Hoodie
+9,3,20,0,False,Baby Rock
 x,y,points,price, key_item.name
