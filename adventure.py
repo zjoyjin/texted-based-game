@@ -86,7 +86,7 @@ def move_prompt(w: World, p: Player):
         p.update_steps()
     elif choice != "BACK":
         print("Invalid direction!")
-        move_prompt(1, p)
+        move_prompt(w, p)
 def drop_prompt(w: World, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -105,7 +105,7 @@ def pick_up_prompt(w: World, p: Player):
     item = w.get_item_from_name(selected_item)
     if item in location.items:
         p.pick_up(item)
-        remove_item_from_loc(item)
+        remove_item_from_loc(location, item)
     elif selected_item != 'Back':
         print("Invalid item!")
         pick_up_prompt(w, p)
@@ -170,15 +170,16 @@ if __name__ == "__main__":
         else:
             print("Invalid option!")
 
-        # Check for victory
-        if p.check_victory():
-            if p.morale > 25:
-                print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
-            else:
-                print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
-        elif p.steps > 570:
+        # Check loss
+        if p.steps > 570:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
+
+        # Check for victory
+    if p.morale > 25:
+        print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
+    else:
+        print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
 
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
