@@ -552,7 +552,7 @@ class Shop(Location):
         print("ITEM              PRICE")
         for itm in self.items:
             spaces = 20 - len(itm.name)
-            print(f"{itm.name}:{" " * spaces}${itm.price}")
+            print(f"{itm.name}:{' '  * spaces}${itm.price}")
 
     def sold(self, item):      # pair in adventure.py w/ wallet decrease
         print("Thank you for your purchase!")
