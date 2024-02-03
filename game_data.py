@@ -535,6 +535,7 @@ class Location:
             print(self.short_desc)
         else:
             print(self.long_desc)
+            self.visited = True
         if self.items:
             print("There are some items in the vicinity: ")
         for item in self.items:
