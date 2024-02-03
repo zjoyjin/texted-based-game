@@ -51,7 +51,7 @@ def init_items_and_npc_to_loc(w: World):
     for item in w.items:
         for location in w.locations:
             if (item.x, item.y) == (location.x, location.y):
-                add_item_to_loc(item)
+                add_item_to_loc(location, item)
     for npc in w.npcs:
         for location in w.locations:
             if (npc.x, npc.y) == (location.x, location.y):
@@ -86,7 +86,7 @@ def move_prompt(w: World, p: Player):
         p.update_steps()
     elif choice != "BACK":
         print("Invalid direction!")
-        move_prompt(1, p)
+        move_prompt(w, p)
 def drop_prompt(w: World, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -105,7 +105,7 @@ def pick_up_prompt(w: World, p: Player):
     item = w.get_item_from_name(selected_item)
     if item in location.items:
         p.pick_up(item)
-        remove_item_from_loc(item)
+        remove_item_from_loc(location, item)
     elif selected_item != 'Back':
         print("Invalid item!")
         pick_up_prompt(w, p)
