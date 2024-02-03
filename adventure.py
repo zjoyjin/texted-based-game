@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     init_items_and_npc_to_loc(w)
 
-    while not p.victory:
+    while not p.check_victory():
         location = w.get_location(p.x, p.y)
         location.print_desc()
 
@@ -170,15 +170,16 @@ if __name__ == "__main__":
         else:
             print("Invalid option!")
 
-        # Check for victory
-        if p.check_victory():
-            if p.morale > 25:
-                print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
-            else:
-                print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
-        elif p.steps > 570:
+        # Check loss
+        if p.steps > 570:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
+
+        # Check for victory
+    if p.morale > 25:
+        print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
+    else:
+        print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
 
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
