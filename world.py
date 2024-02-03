@@ -71,7 +71,7 @@ class World:
         for line in location_data:  # in numerical order (location 0 = locations[0])
             if 'LOCATION' in line:
                 current.append(int(line.split()[1]))
-            elif line == '\n':
+            elif line.strip() == '-':
                 if (current[0] != 40 and current[0] != 41 and current[0] != 34):
                     locs[current[0]] = Location(current[0], current[1], self.get_coords_from_num(current[0]), current[2], current[3])
                 else:
