@@ -183,7 +183,7 @@ class Player:
         else:
             print("Your inventory:")
             for item in self.inventory:
-                print(item + ",", " ")
+                print(item.name, ",", " ")
     
     def print_steps(self):
         print(f"It is {8 + self.morale // 60}: {self.morale % 60}. Your exam starts at 5:30!")

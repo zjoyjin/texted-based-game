@@ -135,47 +135,47 @@ You woke up at EJ Pratt Library, trying to remember why you were here and what h
 -
 LOCATION 26
 Queens Park
-You can smell hte fresh air of Queen's Park
-You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air. To your left you see a crying girl.
+You can smell the fresh air of Queen's Park
+You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air. To your south you saw a crying girl.
 -
 LOCATION 27
 Queens Park
-You can smell hte fresh air of Queen's Park
+You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 28
 Queens Park
-You can smell hte fresh air of Queen's Park
+You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 29
 Queens Park
-You can smell hte fresh air of Queen's Park
-You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
+You can smell the fresh air of Queen's Park
+You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air. You saw a crying girl, do you want to talk to her?
 -
 LOCATION 30
 Queens Park
-You can smell hte fresh air of Queen's Park
-You're in Queen's Park, surrounded by lots of greenery.
+You can smell the fresh air of Queen's Park
+You're in Queen's Park, surrounded by lots of greenery. To your west you saw a crying girl
 -
 LOCATION 31
 Queens Park
-You can smell hte fresh air of Queen's Park
+You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 32
 Queens Park
-You can smell hte fresh air of Queen's Park
-You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
+You can smell the fresh air of Queen's Park
+You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air. To your north you saw a crying girl.
 -
 LOCATION 33
 Queens Park
-You can smell hte fresh air of Queen's Park
+You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 34
 Queens Park
-You can smell hte fresh air of Queen's Park
+You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 35
