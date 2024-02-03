@@ -90,7 +90,7 @@ class World:
 
     def load_shops(self):
         for item in self.items:
-            if (item.x, item.y) == self.get_coords_from_num(41) or (item.x, item.y) == self.get_coords_from_num(40) or (item.x, item.y) == self.get_coords_from_num(34):
+            if (item.x, item.y) == self.get_coords_from_num(41) or (item.x, item.y) == self.get_coords_from_num(40) or (item.x, item.y) == self.get_coords_from_num(37):
                 self.get_location(item.x, item.y).add_item(item)
 
     def load_npcs(self):
