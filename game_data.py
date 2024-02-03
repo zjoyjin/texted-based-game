@@ -172,7 +172,7 @@ class Player:
         elif dir == "WEST":
             self.x -= 1
 
-    def print_morale(self, morale):
+    def print_morale(self):
         print(f"Your morale is {self.morale}")
 
     def display_inventory(self) -> None:
