@@ -2,253 +2,254 @@ LOCATION 0
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 1
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 2
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 3
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 4
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 5
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 6
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 7
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 8
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 9
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 10
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 11
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 12
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 13
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 14
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 15
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 16
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 17
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 18
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 19
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 20
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 21
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 21
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 22
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 23
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 24
 Pathway
 You are at a sidewalk.
 You are at a sidewalk, you should probably hurry up and find all the things you need for the exam.
-
+-
 LOCATION 25
 EJ Pratt
 You woke up at EJ Pratt Library.
 You woke up at EJ Pratt Library, trying to remember why you were here and what happened before you fall asleep, you remembered
 you were studying csc111 last night and falls asleep while you are studying. Surprsling the librarian did not saw you
 and let you stay through the night.
-
+-
 LOCATION 26
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 To your left you see a crying girl.
-
+-
 LOCATION 27
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 28
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 29
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 30
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery.
-
+-
 LOCATION 31
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 32
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 33
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 34
 Queens Park
 You can smell hte fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
-
+-
 LOCATION 35
 Robarts F1
 You are inside the first floor Robarts library.
 You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. The lights are dim,
 the only thing you could hear is your own foot step. Is everyone on vacation?
-
+-
 LOCATION 36
 Robarts F2
 You are at Robarts second floor.
 You are at Robarts second floor, there is still no one here. You remebered last night there was a kid dancing on the
 table, singing songs. People was going crazy last night. You look around, hopefully you can find something you left here
 last night.
-
+-
 LOCATION 37
 Book Store
 You are inside of the Book Store.
 You are inside the campus bookstore. Shelves are neatly organized with textbooks and university merchandise.
 The air is scented with the aroma of fresh paper and ink, feel free to buy anything you want here.
-
+-
 LOCATION 38
 MYHAL
 The myhal is dead quite.
 You are inside of myhal, The building appears modern, with large glass windows reflecting the surrounding architecture.
 Last night there were engineering students having parties in here, you remembered it was so loud that you can't study, so you
 moved. Is it possible that you left anything here?
-
+-
 LOCATION 39
 Exam
 You have entered Exam Center.
 You have entered Exam Center. The place is dimly lit with rows of desks and chairs neatly arranged.
 The atmosphere is tense, suggesting this is a place of academic focus. Are you ready for the exam?
-
+-
 LOCATION 40
 Seven-Elven
 You are inside Seven-Eleven
 You've entered the convenience store at Seven Eleven, there are lots of things you could buy in here.
 It's a small shop filled with snacks, drinks, and everyday essentials. The familiar smell of freshly brewed coffee create
 a cozy atmosphere.
-
+-
 LOCATION 41
 Seven-Elven
 You are inside Seven-Eleven
 You've entered the convenience store at Seven Eleven, there are lots of things you could buy in here.
 It's a small shop filled with snacks, drinks, and everyday essentials. The familiar smell of freshly brewed coffee create
 a cozy atmosphere.
-
+-
 LOCATION 42
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
 and pathways lead to various academic buildings.
-
+-
 LOCATION 43
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
 and pathways lead to various academic buildings.
-
+-
 LOCATION 44
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
 and pathways lead to various academic buildings.
-
+-
 LOCATION 45
 KINGS CIRCLE
 You are at King's Circle, a central point on campus. There's a new fountain at the center, with big fields of grass,
 and pathways lead to various academic buildings. You see a student sitting in the middle of the circle. They seem upset.
-
+-
 LOCATION 46
 SANDFORD FLEMING
 You're in Sandford Fleming.
 You're in Sandford Fleming. It's a tall building where engineering stuff happens.
 Students are coming and going with a purpose.
+-
