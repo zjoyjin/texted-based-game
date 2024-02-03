@@ -235,9 +235,6 @@ class Player:
     def got_running_shoes(self):
         self.has_running_shoes = True
     
-    def dropped_running_shoes(self):
-        self.has_running_shoes = False
-    
     def check_victory(self):
         if len(self._deposited) == 3 and self.steps <= 570:
             return True
@@ -540,11 +537,13 @@ class Location:
         else:
             print(self.long_desc)
             self.visited = True
+
+    def print_items(self) -> None:
         if self.items:
             print("There are some items in the vicinity: ")
         for item in self.items:
             print(item.name, "\t")
-    
+
     def print_look(self):
         print(self.long_desc)
     

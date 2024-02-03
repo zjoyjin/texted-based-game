@@ -88,19 +88,20 @@ def move_prompt(w: World, p: Player):
     elif choice != "BACK":
         print("Invalid direction!")
         move_prompt(w, p)
-def drop_prompt(w: World, p: Player):
+def drop_prompt(w: World, location: Location, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in p.inventory:
-        if not item.key_item and not location.num != 39 and not isinstance(location, Shop):
+        if not item.key_item and location.num != 39 and not isinstance(location, Shop):
             p.drop(item)
+            add_item_to_loc(location, item)
         elif item.key_item and location.num == 39:
             p.take_out(item, True)
         else:
             print("Cannot drop this item here!")
     elif selected_item != "Back":
         print("Invalid item!")
-        drop_prompt(w, p)
+        drop_prompt(w, location, p)
 def pick_up_prompt(w: World, p: Player):
     selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -148,13 +149,15 @@ if __name__ == "__main__":
     while not p.check_victory():
         location = w.get_location(p.x, p.y)
         location.print_desc()
+        if not isinstance(location, Shop):
+            location.print_items()
 
         print("\nWhat to do?")
         print("MOVE\tLOOK\tMENU\tPICK UP\tDROP", "\t")
         if location.npc:
             print("TALK", "\t")
         if isinstance(location, Shop):
-            print("BUY")
+            print("BUY", "\t")
 
         choice = input("\nEnter action: ").upper()
 
@@ -165,7 +168,7 @@ if __name__ == "__main__":
         elif choice == "LOOK":
             print(location.long_desc)
         elif choice == "DROP":
-            drop_prompt(w, p)
+            drop_prompt(w, location, p)
         #NOTE: change v for the puzzle and stuff
         elif choice == "PICK UP":
             if location.get_items():
