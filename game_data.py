@@ -123,7 +123,6 @@ class Player:
     steps: int
     _deposited: set[Item] # for key items
     has_running_shoes: bool
-    victory: bool
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -144,8 +143,7 @@ class Player:
         self.steps = 0
         self._deposited = set() # for key items
         self.has_running_shoes = False
-        self.victory = False
-
+    
     # def move(self, dx, dy):
     #     self.x += dx
     #     self.y += dy
@@ -196,21 +194,25 @@ class Player:
         """
         self.inventory.append(item)
         item.update_location(None, None)
-        print(f"You picked up {item}.")
+        print(f"You picked up {item.name}.")
 
     def take_out(self, item: Item, at_ex: bool):      #at_ex: if we are at exam centre
         """Remove an item from the player's inventory.
+        Precondition:
+            - item in self.inventory
         """
-        if item in self.inventory and not at_ex and not item.key_item:
+        # giving to miserable student:
+        if not at_ex and not item.key_item:
             self.inventory.remove(item)
-            print(f"You took out {item} from your inventory.")
-        elif item in self.inventory and at_ex and item.key_item:
+            print(f"You took out {item.name} from your inventory.")
+        # depositing at exam centre:
+        elif at_ex and item.key_item:
             self.inventory.remove(item)
             self._deposited.add(item)
             self.morale += item.target_points
-            print(f"Deposited {item} at the Exam Centre!")
+            print(f"Deposited {item.name} at the Exam Centre!")
         else:
-            print(f"Could not give {item}.")
+            print(f"Could not take out {item.name}.")
 
     def drop(self, item: Item):
         """Drop an item from the player's inventory at a specified location
@@ -218,18 +220,12 @@ class Player:
             location: The location where the item is dropped.
             NOTE: PLEASE DONT LET THEM DROP AT EXAM CENTRE
         """
-        if item in self.inventory and not item.key_item:
-            self.inventory.remove(item)
-            item.update_location(self.x, self.y)
-            if item.name == "Running Shoes":
-                self.has_running_shoes = False
-            print(f"You dropped {item.name}.")
-        else:
-            print(f"Could not drop {item.name}.")
-    
-    def update_victory(self):
-        if self.morale > 600 and len(self._deposited) == 3:
-            self.victory = True
+        self.inventory.remove(item)
+        item.update_location(self.x, self.y)
+        if item.name == "Running Shoes":
+            self.has_running_shoes = False
+        print(f"You dropped {item.name}.")
+
 
     def update_steps(self):
         if self.has_running_shoes:
@@ -245,6 +241,11 @@ class Player:
     
     def dropped_running_shoes(self):
         self.has_running_shoes = False
+    
+    def check_victory(self):
+        if len(self._deposited) == 3 and self.steps <= 570:
+            return True
+        return False
 
 class NPC:
     """Base class for Non-Playable Characters (NPCs) in the text adventure game.
@@ -357,7 +358,7 @@ class CryingGirl(NPC):
         if not self.has_baby_rock:
             for item in player.inventory:
                 if item.name == "Baby Rock":
-                    player.take_out(item)
+                    player.take_out(item, False)
                     self.has_baby_rock = True
                     player.morale += 3
                     print("Crying Girl: You found my baby!!! Thank you so much!")
@@ -406,7 +407,7 @@ class MiserableStudent(NPC):
                 if inp == "candy" or inp == "hot chocolate":
                     for i in player.inventory:
                         if i.name.lower() == inp:
-                            player.take_out(i)
+                            player.take_out(i, False)
                             break
                     print("You give the student some candy.")
                     print(f"{self.name}: Ahh sugar... Sugar!! I can feel the glucose (C6H12O6) running through my veins!\

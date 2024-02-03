@@ -18,7 +18,7 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 # Note: You may add in other import statements here as needed
-from game_data import Item, Location, Player
+from game_data import Item, Location, Player, Shop
 from world import World
 
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
@@ -66,9 +66,9 @@ def menu_prompt():
     if choice == "INVENTORY":
         p.display_inventory()
     elif choice == "MORALE":
-        print(p.print_morale())
+        p.print_morale()
     elif choice == "TIME":
-        print(p.print_steps())
+        p.print_steps()
     elif choice == "QUIT GAME":
         quit()
     elif choice != "BACK":
@@ -83,34 +83,45 @@ def move_prompt():
     choice = input("Enter direction: ").upper()
     if choice in dirs:
         p.move(choice)
+        p.update_steps()
     elif choice != "BACK":
         print("Invalid direction!")
         move_prompt()
-def drop_prompt(loc_num):
-    selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").upper()
+def drop_prompt():
+    selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
-    if item:
-        if not item.key_item and not loc_num != 39:
+    if item in p.inventory:
+        if not item.key_item and not location.num != 39 and not isinstance(location, Shop):
             p.drop(item)
-            print(f"Dropped {item.name}.")
-        elif item and item.key_item and loc_num == 39:
-            p.take_out(item)
-            print(f"Deposited {item.name}!")
-            p.update_deposited(item)
+        elif item.key_item and location.num == 39:
+            p.take_out(item, True)
         else:
             print("Cannot drop this item here!")
-    elif selected_item != "BACK":
+    elif selected_item != "Back":
         print("Invalid item!")
         drop_prompt()
 def pick_up_prompt():
-    selected_item = w.input("\nPick up which item? (enter 'BACK' to go back) ").title()
-    for item in location.items:
-        if selected_item in item.name:
-            p.pick_up(w.get_item_from_name(selected_item))
-            #TODO: UPDATE ITEMS VAR FOR LOCATION
-        elif selected_item != 'Back':
-            print("Invalid item!")
-            pick_up_prompt()
+    selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
+    item = w.get_item_from_name(selected_item)
+    if item in location.items:
+        p.pick_up(item)
+        remove_item_from_loc(item)
+    elif selected_item != 'Back':
+        print("Invalid item!")
+        pick_up_prompt()
+#TODO:
+def buy_prompt():
+    print(f"Welcome to {location.name}!")
+    location.print_wares()
+    selected_item = input("What to buy? (enter 'BACK' to go back)").title()
+    item = w.get_item_from_name(selected_item)
+    if item in location.items:
+        p.wallet.buy(item.price)
+        p.pick_up(item)
+    elif selected_item != 'Back':
+        print("Invalid item!")
+        buy_prompt()
+
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
 if __name__ == "__main__":
@@ -126,7 +137,11 @@ if __name__ == "__main__":
         location.print_desc()
 
         print("\nWhat to do?")
-        print("MOVE\tLOOK\tPICK UP\tDROP\tMENU")
+        print("MOVE\tLOOK\tMENU\tPICK UP\tDROP", "\t")
+        if location.npc:
+            print("TALK", "\t")
+        if isinstance(location, Shop):
+            print("BUY")
 
         choice = input("\nEnter action: ").upper()
 
@@ -137,14 +152,33 @@ if __name__ == "__main__":
         elif choice == "LOOK":
             print(location.long_desc)
         elif choice == "DROP":
-            drop_prompt(w.get_location(p.x, p.y).num)
+            drop_prompt()
+        #NOTE: change v for the puzzle and stuff
         elif choice == "PICK UP":
             if location.get_items():
                 pick_up_prompt()
             else:
                 print("There are no items to pick up.")
+        elif choice == "TALK" and location.npc:
+            npc = location.get_npc()
+            if npc.name == "Miserable Student":
+                npc.prompt(p, w.items)
+            else:
+                npc.prompt(p)
+        elif choice == "BUY" and isinstance(location, Shop):
+            buy_prompt()
         else:
             print("Invalid option!")
+
+        # Check for victory
+        if p.check_victory():
+            if p.morale > 25:
+                print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
+            else:
+                print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
+        elif p.steps > 570:
+            p.print_steps()
+            print("Oh no! You missed your exam... womp womp :(")
 
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
