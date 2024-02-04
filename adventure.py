@@ -173,7 +173,7 @@ if __name__ == "__main__":
             drop_prompt(w, location, p)
         #NOTE: change v for the puzzle and stuff
         elif choice == "PICK UP":
-            if location.get_items():
+            if location.get_items() and not isinstance(location, Shop):
                 pick_up_prompt(w, p)
             else:
                 print("There are no items to pick up.")
