@@ -18,7 +18,7 @@ please consult our Course Syllabus.
 This file is Copyright (c) 2024 CSC111 Teaching Team
 """
 # Note: You may add in other import statements here as needed
-from game_data import Item, Location, Player, Shop
+from game_data import Item, Location, Player, Shop, Wallet
 from world import World
 from Enhancement import examine, type_code
 
@@ -70,6 +70,8 @@ def menu_prompt(p: Player):
         p.print_morale()
     elif choice == "TIME":
         p.print_steps()
+    elif choice == "WALLET":
+        p.display_balance()
     elif choice == "QUIT GAME":
         quit()
     elif choice != "BACK":
@@ -142,7 +144,7 @@ if __name__ == "__main__":
     with open('map.txt') as map_file, open('locations.txt') as location_file, open('items.txt') as item_file:
         w = World(map_file, location_file, item_file)
     p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
-    menu = ["INVENTORY", "MORALE", "TIME", "BACK", "QUIT GAME"]
+    menu = ["INVENTORY", "MORALE", "TIME", "BACK", 'WALLET', "QUIT GAME"]
 
     init_items_and_npc_to_loc(w)
 

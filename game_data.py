@@ -82,11 +82,6 @@ class Wallet:
         """
         self.money = 100
 
-    def display_balance(self) -> None:
-        """Display the current balance in the wallet.
-        """
-        print(f"Wallet Balance: ${self.money}")
-
     def buy(self, amount: int) -> bool:
         """Attempt to buy an item and deduct the specified amount from the wallet.
         Returns:
@@ -225,6 +220,11 @@ class Player:
         if item.name == "Running Shoes":
             self.has_running_shoes = False
         print(f"You dropped {item.name}.")
+
+    def display_balance(self) -> None:
+        """Display the current balance in the wallet.
+        """
+        print(f"Wallet Balance: ${self.wallet.money}","\t")
 
     def update_steps(self):
         if self.has_running_shoes:
