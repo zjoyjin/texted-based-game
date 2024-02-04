@@ -118,6 +118,7 @@ class Player:
     steps: int
     _deposited: set[Item] # for key items
     has_running_shoes: bool
+    completed_puzzle: bool
 
     def __init__(self, x: int, y: int) -> None:
         """
@@ -138,6 +139,7 @@ class Player:
         self.steps = 0
         self._deposited = set() # for key items
         self.has_running_shoes = False
+        self.completed_puzzle = False
     
     # def move(self, dx, dy):
     #     self.x += dx
