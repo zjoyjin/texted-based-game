@@ -84,7 +84,7 @@ class World:
         itms = []
         for line in item_data:
             current = line.split(',')
-            itms.append(Item(current[5].strip(), int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
+            itms.append(Item(current[4].strip(), int(current[2]), (int(current[0]), int(current[1])), current[3]))
         return itms
 
     def load_npcs(self):
