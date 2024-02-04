@@ -38,8 +38,7 @@ class World:
         self.locations = self.load_locations(location_data)
         self.items = self.load_items(items_data)
         self.npcs = self.load_npcs()
-        self.load_shops()
-
+        self.init_items_and_npc_to_loc()
 
         # NOTE: You may choose how to store location and item data; create your own World methods to handle these
         # accordingly. The only requirements:
@@ -88,13 +87,18 @@ class World:
             itms.append(Item(current[5].strip(), int(current[2]), int(current[3]), int(current[0]), int(current[1]), current[4]))
         return itms
 
-    def load_shops(self):
-        for item in self.items:
-            if (item.x, item.y) == self.get_coords_from_num(41) or (item.x, item.y) == self.get_coords_from_num(40) or (item.x, item.y) == self.get_coords_from_num(37):
-                self.get_location(item.x, item.y).add_item(item)
-
     def load_npcs(self):
         return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 5, 7), CryingGirl("Crying Girl", 0, 7, 4)]
+
+    def init_items_and_npc_to_loc(self):
+        for item in self.items:
+            for location in self.locations:
+                if (item.x, item.y) == (location.x, location.y):
+                    location.add_item(item)
+        for npc in self.npcs:
+            for location in self.locations:
+                if (npc.x, npc.y) == (location.x, location.y):
+                    location.add_npc(npc)
 
     def get_coords_from_num(self, num):
         """

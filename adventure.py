@@ -48,15 +48,6 @@ def add_item_to_loc(location: Location, item: Item):
     location.add_item(item)
 def remove_item_from_loc(location: Location, item: Item):
     location.remove_item(item)
-def init_items_and_npc_to_loc(w: World):
-    for item in w.items:
-        for location in w.locations:
-            if (item.x, item.y) == (location.x, location.y):
-                add_item_to_loc(location, item)
-    for npc in w.npcs:
-        for location in w.locations:
-            if (npc.x, npc.y) == (location.x, location.y):
-                location.add_npc(npc)
 
 # Prompts for player:
 def menu_prompt(p: Player):
@@ -145,8 +136,6 @@ if __name__ == "__main__":
         w = World(map_file, location_file, item_file)
     p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
     menu = ["INVENTORY", "MORALE", "TIME", "BACK", 'WALLET', "QUIT GAME"]
-
-    init_items_and_npc_to_loc(w)
 
     while not p.check_victory():
         location = w.get_location(p.x, p.y)
