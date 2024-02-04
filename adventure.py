@@ -20,7 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop, Wallet
 from world import World
-from Enhancement import examine, type_code
+from puzzle import examine, type_code, look_closer
 
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
@@ -109,12 +109,7 @@ def robarts_first_floor_puzzle(p: Player, location: Location):
     """Checks if the player is at the specified location and triggers the Robarts Library puzzle.
         player_location: The current location of the player.
     """
-    x, y = 2, 5
-
-    if (p.x, p.y) == (x, y):
-        examine()
-    else:
-        print("You are not at the specified location.")
+    examine()
 
 #TODO:
 def buy_prompt(location: Shop, p: Player):
@@ -144,23 +139,36 @@ if __name__ == "__main__":
             location.print_items()
 
         print("\nWhat to do?")
-        print("MOVE\tLOOK\tMENU\tPICK UP\tDROP", "\t")
+        print("MOVE\tLOOK\tMENU\tPICK UP\t\tDROP", "\t")
         if location.npc:
             print("TALK", "\t")
         if isinstance(location, Shop):
             print("BUY", "\t")
+        if location.num == 36 and not p.completed_puzzle:
+            print("LOOK CLOSER\tEXAMINE ITEM", "\t")
 
         choice = input("\nEnter action: ").upper()
 
         if choice == "MENU":
             menu_prompt(p)
         elif choice == "MOVE":
-            move_prompt(w, p)
+            if location.num != 36 or p.completed_puzzle:
+                move_prompt(w, p)
+            # vv to restrict 2nd floor robarts access before puzzle completion
+            else:
+                print("Where to go?")
+                print("EAST\tBACK")
+                choice = input("Enter direction: ").upper()
+                if choice == "EAST":
+                    p.move(choice)
+                    p.update_steps()
+                elif choice != "BACK":
+                    print("Invalid direction!")
+                    move_prompt(w, p)
         elif choice == "LOOK":
             print(location.long_desc)
         elif choice == "DROP":
             drop_prompt(w, location, p)
-        #NOTE: change v for the puzzle and stuff
         elif choice == "PICK UP":
             if location.get_items() and not isinstance(location, Shop):
                 pick_up_prompt(w, p)
@@ -174,6 +182,10 @@ if __name__ == "__main__":
                 npc.prompt(p)
         elif choice == "BUY" and isinstance(location, Shop):
             buy_prompt(location, p)
+        elif choice == "LOOK CLOSER" and location.num == 36 and not p.completed_puzzle:
+            look_closer()
+        elif choice == "EXAMINE OBJECT" and location.num == 36 and not p.completed_puzzle:
+            examine(p)
         else:
             print("Invalid option!")
 
