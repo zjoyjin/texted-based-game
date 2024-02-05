@@ -20,7 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop, Wallet
 from world import World
-from puzzle import examine, type_code, look_closer
+from puzzle import examine, look_closer
 
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
