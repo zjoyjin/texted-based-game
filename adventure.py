@@ -20,6 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop, Wallet
 from world import World
+<<<<<<< HEAD
 from puzzle import examine, type_code
 
 from python_ta.contracts import check_contracts
@@ -27,6 +28,9 @@ from python_ta.contracts import check_contracts
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"  # move into get_directions if not needed
 from puzzle import examine, type_code, look_closer
 
+=======
+from puzzle import examine, type_code, look_closer
+>>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
 
 
 # Note: You may add helper functions, classes, etc. here as needed
@@ -56,6 +60,7 @@ def add_item_to_loc(location: Location, item: Item):
 
 def remove_item_from_loc(location: Location, item: Item):
     location.remove_item(item)
+<<<<<<< HEAD
 
 
 def init_items_and_npc_to_loc(w: World):
@@ -134,6 +139,10 @@ def robarts_first_floor_puzzle(p: Player, location: Location):
     """
     examine()
 
+<<<<<<< HEAD
+=======
+#TODO:
+>>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
 def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
     location.print_wares()
@@ -191,8 +200,11 @@ if __name__ == "__main__":
             print(location.long_desc)
         elif choice == "DROP":
             drop_prompt(w, location, p)
+<<<<<<< HEAD
 
         # NOTE: change v for the puzzle and stuff
+=======
+>>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
         elif choice == "PICK UP":
             if location.get_items() and not isinstance(location, Shop):
                 pick_up_prompt(w, p)
