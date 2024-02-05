@@ -194,7 +194,7 @@ class Player:
         elif at_ex and item.key_item:
             self.inventory.remove(item)
             self._deposited.add(item)
-            self.morale += item.target_points
+            self.morale += 5
             print(f"Deposited {item.name} at the Exam Centre!")
         else:
             print(f"Could not take out {item.name}.")
