@@ -33,9 +33,8 @@ class Item:
         - # TODO
     """
     name: str
-    x: int
-    y: int
-    target_points: int
+    x: Optional[int]        # None if in inventory
+    y: Optional[int]
     price: int
     key_item: bool
 
@@ -60,7 +59,7 @@ class Item:
         else:
             self.key_item = True
 
-    def update_location(self, x: int, y: int) -> None:
+    def update_location(self, x: Optional[int], y: Optional[int]) -> None:
         """ Update position of item. None if in inventory.
         """
         self.x = x
@@ -326,12 +325,7 @@ class RichLady(NPC):
 class CryingGirl(NPC):
     """A crying girl NPC."""
 
-    def __init__(self, name: str, happiness: int, money: int, morale: int, has_baby_rock: bool = False) -> None:
-        """Initialize a new CryingGirl.
-        """
-        self.has_baby_rock = has_baby_rock
-
-    has_baby_rock = False
+    has_baby_rock: bool = False
 
     def _rob_attempt(self) -> bool:
         """Robbery attempt for CryingGirl (always fails)."""
@@ -377,14 +371,7 @@ class CryingGirl(NPC):
 @check_contracts
 class MiserableStudent(NPC):
     """A miserable student NPC."""
-    has_food: bool
-
-    def __init__(self, has_food: bool) -> None:
-        """Initialize a new CryingGirl.
-        """
-        has_food: bool
-
-    has_food = False
+    has_food: bool = False
 
     def _rob_attempt(self) -> bool:
         """Robbery attempt for MiserableStudent (always succeeds)."""
@@ -466,7 +453,7 @@ class Location:
     long_desc: str
     visited: bool
     items: list[Item]
-    npc: NPC  # there's only gonna be at most one npc at each loc anyway
+    npc: Optional[NPC]  # there's only gonna be at most one npc at each loc anyway
 
     def __init__(self, num: int, name: str, pos: tuple, short_desc: str, long_desc: str) -> None:
         """Initialize a new location.
@@ -504,7 +491,7 @@ class Location:
     def get_coords(self) -> tuple:
         return (self.x, self.y)
 
-    def get_npc(self) -> list:
+    def get_npc(self) -> Optional[NPC]:
         return self.npc
 
     def add_item(self, item: Item) -> None:
