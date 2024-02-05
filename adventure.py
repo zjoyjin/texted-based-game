@@ -20,18 +20,9 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop, Wallet
 from world import World
-<<<<<<< HEAD
-from puzzle import examine, type_code
-
-from python_ta.contracts import check_contracts
-
-N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"  # move into get_directions if not needed
 from puzzle import examine, type_code, look_closer
 
-=======
-from puzzle import examine, type_code, look_closer
->>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
-
+N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
 # Note: You may add helper functions, classes, etc. here as needed
 def get_directions(w: World, p: Player) -> list:
@@ -41,38 +32,22 @@ def get_directions(w: World, p: Player) -> list:
     # North
     if w.get_location(p.x, p.y - 1) is not None:
         directions.append(N)
-    # South
+    #South
     if w.get_location(p.x, p.y + 1) is not None:
         directions.append(S)
-    # East
+    #East
     if w.get_location(p.x + 1, p.y) is not None:
         directions.append(E)
-    # West
+    #West
     if w.get_location(p.x - 1, p.y) is not None:
         directions.append(W)
     return directions
 
-
 # Updating items and init npc in Location Class
 def add_item_to_loc(location: Location, item: Item):
     location.add_item(item)
-
-
 def remove_item_from_loc(location: Location, item: Item):
     location.remove_item(item)
-<<<<<<< HEAD
-
-
-def init_items_and_npc_to_loc(w: World):
-    for item in w.items:
-        for location in w.locations:
-            if (item.x, item.y) == (location.x, location.y):
-                add_item_to_loc(location, item)
-    for npc in w.npcs:
-        for location in w.locations:
-            if (npc.x, npc.y) == (location.x, location.y):
-                location.add_npc(npc)
-
 
 # Prompts for player:
 def menu_prompt(p: Player):
@@ -93,7 +68,6 @@ def menu_prompt(p: Player):
     elif choice != "BACK":
         print("Invalid input!")
         menu_prompt(p)
-
 def move_prompt(w: World, p: Player):
     print("Where to go?")
     dirs = get_directions(w, p)
@@ -107,7 +81,6 @@ def move_prompt(w: World, p: Player):
     elif choice != "BACK":
         print("Invalid direction!")
         move_prompt(w, p)
-
 def drop_prompt(w: World, location: Location, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -122,7 +95,6 @@ def drop_prompt(w: World, location: Location, p: Player):
     elif selected_item != "Back":
         print("Invalid item!")
         drop_prompt(w, location, p)
-
 def pick_up_prompt(w: World, p: Player):
     selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -139,10 +111,7 @@ def robarts_first_floor_puzzle(p: Player, location: Location):
     """
     examine()
 
-<<<<<<< HEAD
-=======
 #TODO:
->>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
 def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
     location.print_wares()
@@ -153,7 +122,7 @@ def buy_prompt(location: Shop, p: Player):
         p.pick_up(item)
     elif selected_item != 'Back':
         print("Invalid item!")
-        buy_prompt(location, p)
+        buy_prompt()
 
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
@@ -200,11 +169,6 @@ if __name__ == "__main__":
             print(location.long_desc)
         elif choice == "DROP":
             drop_prompt(w, location, p)
-<<<<<<< HEAD
-
-        # NOTE: change v for the puzzle and stuff
-=======
->>>>>>> c646d17959ec66c15b2c43b3326ce1685b42fe9f
         elif choice == "PICK UP":
             if location.get_items() and not isinstance(location, Shop):
                 pick_up_prompt(w, p)
@@ -226,17 +190,16 @@ if __name__ == "__main__":
             print("Invalid option!")
 
         # Check loss
-        if p.steps > 560:
+        if p.steps > 570:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
 
         # Check for victory
     if p.morale >= 0:
-        print(
-            "You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
+        print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
     else:
-        print(
-            "Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
+        print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
+
 
         # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
         #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
@@ -248,11 +211,3 @@ if __name__ == "__main__":
         #  OR Check what type of action it is, then modify only player or location accordingly
         #  OR Method in Player class for move or updating inventory
         #  OR Method in Location class for updating location item info, or other location data etc....
-        # import python_ta
-        #
-        # python_ta.check_all(config={
-        #     'max-line-length': 120
-        # })
-
-
-
