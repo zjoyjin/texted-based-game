@@ -299,23 +299,19 @@ class RichLady(NPC):
     def prompt(self, player: Player) -> None:
         """RichLady harasses the player."""
         print(f"{self.name} looks at you with sideeyes and says: What are you doing here? You don't belong!")
-        print("Options:")
-        print("1. Respond calmly.")
-        print("2. Insult her back.")
-        print("3. Attempt to rob her.")
-        print("4. Leave.")
+        print("Options: RESPOND\tINSULT\tROB\tLEAVE")
 
-        choice = input("Enter your choice (1, 2, 3, or 4): ")
-        if choice == '1':
-            print("You respond calmly and try to defuse the situation.")
+        choice = input("What to do? ").lower()
+        if choice == 'respond':
+            print("You respond calmly and try to defuse the situation. The lady sniffs disdainfully, but says nothing.")
             player.morale += 2
-        elif choice == '2':
+        elif choice == 'insult':
             print("You insult her back, but it doesn't helps the situation.")
             player.morale -= 3
-        elif choice == '3':
+        elif choice == 'rob':
             print("You decide to attempt to rob her.")
             self.get_robbed(player)
-        elif choice == '4':
+        elif choice == 'leave':
             print("You decide to leave to avoid further confrontation.")
         else:
             print("Invalid choice. You decide to leave.")
@@ -334,18 +330,15 @@ class CryingGirl(NPC):
     def prompt(self, player: Player) -> None:
         """CryingGirl talks to the player and requests them to find a baby rock."""
         print(f"{self.name}: *Sob* Oh dear, oh dear... Could you please find a baby rock for me? It means a lot. *Sob*")
-        print("Options:")
-        print("1.Give baby rock.")
-        print("2. Rob")
-        print("3. Leave.")
+        print("Options: GIVE BABY ROCK    ROB\tLEAVE")
 
-        choice = input("Enter your choice (1 or 2): ")
-        if choice == '1':
+        choice = input("What to do? ").lower()
+        if choice == 'give baby rock':
             self.give_baby_rock(player)
-        elif choice == '2':
+        elif choice == 'rob':
             print("You decide to attempt to rob her.")
             self.get_robbed(player)
-        elif choice == '3':
+        elif choice == 'leave':
             print("You decide to leave.")
         else:
             print("Invalid choice. You decide to leave.")
@@ -387,13 +380,10 @@ class MiserableStudent(NPC):
             print("You've already bought food for the student. They look grateful.")
             player.morale += 5
         else:
-            print("Options:")
-            print("1. Give food")
-            print("2. Attempt to Rob them")
-            print("3. Refuse and leave.")
+            print("Options: GIVE FOOD    ROB\tLEAVE")
 
-            choice = input("Enter your choice (1 or 2): ")
-            if choice == '1':
+            choice = input("What to do? ").lower()
+            if choice == "give food":
                 print("What do you want to give?")
                 player.display_inventory()
                 inp = input().lower()
@@ -412,12 +402,13 @@ class MiserableStudent(NPC):
                             player.pick_up(i)
                             player.got_running_shoes()
                             break
+                    player.morale += 3
                 else:
-                    print(f"{self.name}: That's not food... Go to 7-11 and get me some food")
-            elif choice == '2':
+                    print(f"{self.name}: That's not food...")
+            elif choice == 'rob':
                 print("You decide to attempt to rob them.")
                 self.get_robbed(player)
-            elif choice == '3':
+            elif choice == 'leave':
                 print("You decide to refuse and leave.")
             else:
                 print("Invalid choice. You decide to leave.")

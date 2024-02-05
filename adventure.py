@@ -51,7 +51,7 @@ def remove_item_from_loc(location: Location, item: Item):
 
 # Prompts for player:
 def menu_prompt(p: Player):
-    print("Menu Options:")
+    print("Menu Options: ")
     for option in menu:
         print(option, end ="\t")
     choice = input("\nChoose action: ").upper()
@@ -131,7 +131,7 @@ if __name__ == "__main__":
             location.print_items()
 
         print("\nWhat to do?")
-        print("MOVE\tLOOK\tMENU\tPICK UP\t\tDROP", end = "\t")
+        print("MOVE\tLOOK\tMENU\tPICK UP    DROP ", end = "\t")
         if location.npc:
             print("TALK", end = "\t")
         if isinstance(location, Shop):
