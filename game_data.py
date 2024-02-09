@@ -482,6 +482,7 @@ class Location:
     def get_coords(self) -> tuple:
         return (self.x, self.y)
 
+
     def get_npc(self) -> Optional[NPC]:
         return self.npc
 

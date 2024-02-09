@@ -1,0 +1,215 @@
+move
+south
+menu
+time
+move
+south
+pick up
+baby rock
+menu
+INVENTORY
+move
+south
+move
+south
+move
+west
+move
+north
+move
+north
+move
+west
+move
+south
+pick up
+cheat sheet
+menu
+inventory
+talk
+give baby rock
+menu
+morale
+look
+move
+west
+move
+west
+move
+west
+move
+west
+move
+west
+move
+west
+look closer
+examine
+desk
+examine
+blotter
+examine
+mint tin
+examine
+metal door
+HappyJoyee
+move
+north
+pick up
+t card
+menu
+inventory
+move
+south
+move
+east
+move
+south
+move
+south
+move
+south
+move
+south
+move
+east
+pick up
+lucky pen
+menu
+inventory
+move
+west
+move
+south
+move
+west
+pick up
+buy
+pass exam
+menu
+wallet
+move
+east
+move
+south
+move
+east
+move
+east
+move
+east
+move
+north
+menu
+time
+move
+west
+move
+east
+move
+north
+move
+north
+talk
+give food
+pass exam
+menu
+inventory
+move
+south
+move
+south
+move
+south
+move
+east
+move
+east
+move
+east
+move
+north
+talk
+rob
+menu
+wallet
+menu
+morale
+move
+north
+move
+east
+buy
+candy
+menu
+inventory
+menu
+wallet
+move
+north
+buy
+hot chocolate
+menu
+inventory
+menu
+wallet
+move
+west
+move
+south
+move
+south
+move
+south
+move
+west
+move
+west
+move
+west
+move
+north
+move
+north
+move
+north
+look
+talk
+give food
+candy
+menu
+inventory
+menu
+morale
+talk
+give food
+hot chocolate
+menu
+inventory
+menu
+morale
+move
+south
+move
+south
+move
+south
+move
+west
+move
+west
+look
+menu
+time
+move
+south
+drop
+t card
+menu
+inventory
+drop
+cheat sheet
+menu
+inventory
+drop
+lucky pen

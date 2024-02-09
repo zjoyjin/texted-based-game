@@ -181,7 +181,7 @@ You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful h
 LOCATION 35
 Robarts F1
 You are inside the first floor Robarts library.
-You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. The lights are dim, the only thing you could hear is your own foot step. Is everyone on vacation?
+You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. You are locked here, but you need to get in. Maybe you could look closure
 -
 LOCATION 36
 Robarts F2
