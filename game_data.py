@@ -504,7 +504,7 @@ class Location:
     def get_coords(self) -> tuple:
         return (self.x, self.y)
 
-    def get_npc(self) -> list:
+    def get_npc(self):
         return self.npc
 
     def add_item(self, item: Item) -> None:
