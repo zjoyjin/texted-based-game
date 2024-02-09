@@ -44,10 +44,10 @@ def get_directions(w: World, p: Player) -> list:
     return directions
 
 # Updating items and init npc in Location Class
-def add_item_to_loc(location: Location, item: Item):
-    location.add_item(item)
-def remove_item_from_loc(location: Location, item: Item):
-    location.remove_item(item)
+# def add_item_to_loc(location: Location, item: Item):
+#     location.add_item(item)
+# def remove_item_from_loc(location: Location, item: Item):
+#     location.remove_item(item)
 
 # Prompts for player:
 def menu_prompt(p: Player):
@@ -81,13 +81,13 @@ def move_prompt(w: World, p: Player):
     elif choice != "BACK":
         print("Invalid direction!")
         move_prompt(w, p)
-def drop_prompt(w: World, location: Location, p: Player):
+def drop_prompt(w: World, loc: Location, p: Player):
     selected_item = input("What item should be dropped? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in p.inventory:
         if not item.key_item and location.num != 39 and not isinstance(location, Shop):
             p.drop(item)
-            add_item_to_loc(location, item)
+            loc.add_item(item)
         elif item.key_item and location.num == 39:
             p.take_out(item, True)
         else:
@@ -95,12 +95,12 @@ def drop_prompt(w: World, location: Location, p: Player):
     elif selected_item != "Back":
         print("Invalid item!")
         drop_prompt(w, location, p)
-def pick_up_prompt(w: World, p: Player):
+def pick_up_prompt(w: World, p: Player, loc: Location):
     selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in location.items:
         p.pick_up(item)
-        remove_item_from_loc(location, item)
+        loc.remove_item(item)
     elif selected_item != 'Back':
         print("Invalid item!")
         pick_up_prompt(w, p)
@@ -110,8 +110,9 @@ def buy_prompt(location: Shop, p: Player):
     selected_item = input("What to buy? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in location.items:
-        p.wallet.buy(item.price)
-        p.pick_up(item)
+        if p.wallet.buy(item.price):
+            location.sold(item)
+            p.pick_up(item)
     elif selected_item != 'Back':
         print("Invalid item!")
         buy_prompt()
@@ -123,6 +124,7 @@ if __name__ == "__main__":
         w = World(map_file, location_file, item_file)
     p = Player(9, 1)  # set starting location of player; you may change the x, y coordinates here as appropriate
     menu = ["INVENTORY", "MORALE", "TIME", "BACK", 'WALLET', "QUIT GAME"]
+    completed_puzzle = False
 
     while not p.check_victory():
         location = w.get_location(p.x, p.y)
@@ -136,7 +138,7 @@ if __name__ == "__main__":
             print("TALK", end = "\t")
         if isinstance(location, Shop):
             print("BUY", end = "\t")
-        if location.num == 36 and not p.completed_puzzle:
+        if location.num == 36 and not completed_puzzle:
             print("LOOK CLOSER\tEXAMINE", end = "\t")
 
         choice = input("\nEnter action: ").upper()
@@ -144,7 +146,7 @@ if __name__ == "__main__":
         if choice == "MENU":
             menu_prompt(p)
         elif choice == "MOVE":
-            if location.num != 36 or p.completed_puzzle:
+            if location.num != 36 or completed_puzzle:
                 move_prompt(w, p)
             # vv to restrict 2nd floor robarts access before puzzle completion
             else:
@@ -163,7 +165,7 @@ if __name__ == "__main__":
             drop_prompt(w, location, p)
         elif choice == "PICK UP":
             if location.get_items() and not isinstance(location, Shop):
-                pick_up_prompt(w, p)
+                pick_up_prompt(w, p, location)
             else:
                 print("There are no items to pick up.")
         elif choice == "TALK" and location.npc:
@@ -174,32 +176,20 @@ if __name__ == "__main__":
                 npc.prompt(p)
         elif choice == "BUY" and isinstance(location, Shop):
             buy_prompt(location, p)
-        elif choice == "LOOK CLOSER" and location.num == 36 and not p.completed_puzzle:
+        elif choice == "LOOK CLOSER" and location.num == 36 and not completed_puzzle:
             look_closer()
-        elif choice == "EXAMINE" and location.num == 36 and not p.completed_puzzle:
+        elif choice == "EXAMINE" and location.num == 36 and not completed_puzzle:
             examine(p)
         else:
             print("Invalid option!")
 
-        # Check loss
+        # Check loss  TODO: change number to be reasonable, and also change time while ur at it
         if p.steps > 570:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
 
-        # Check for victory
+    # 2 different endings!
     if p.morale >= 0:
         print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
     else:
         print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
-
-
-        # TODO: CALL A FUNCTION HERE TO HANDLE WHAT HAPPENS UPON THE PLAYER'S CHOICE
-        #  REMEMBER: the location = w.get_location(p.x, p.y) at the top of this loop will update the location if
-        #  the choice the player made was just a movement, so only updating player's position is enough to change the
-        #  location to the next appropriate location
-        #  Possibilities:
-        #  A helper function such as do_action(w, p, location, choice)
-        #  OR A method in World class w.do_action(p, location, choice)
-        #  OR Check what type of action it is, then modify only player or location accordingly
-        #  OR Method in Player class for move or updating inventory
-        #  OR Method in Location class for updating location item info, or other location data etc....
