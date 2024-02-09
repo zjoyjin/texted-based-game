@@ -94,7 +94,7 @@ def drop_prompt(w: World, loc: Location, p: Player):
             print("Cannot drop this item here!")
     elif selected_item != "Back":
         print("Invalid item!")
-        drop_prompt(w, location, p)
+        drop_prompt(w, loc, p)
 def pick_up_prompt(w: World, p: Player, loc: Location):
     selected_item = input("\nPick up which item? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
@@ -103,7 +103,7 @@ def pick_up_prompt(w: World, p: Player, loc: Location):
         loc.remove_item(item)
     elif selected_item != 'Back':
         print("Invalid item!")
-        pick_up_prompt(w, p)
+        pick_up_prompt(w, p, loc)
 def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
     location.print_wares()
@@ -115,7 +115,7 @@ def buy_prompt(location: Shop, p: Player):
             p.pick_up(item)
     elif selected_item != 'Back':
         print("Invalid item!")
-        buy_prompt()
+        buy_prompt(location, p)
 
 
 # Note: You may modify the code below as needed; the following starter template are just suggestions
