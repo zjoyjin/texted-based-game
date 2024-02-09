@@ -488,6 +488,7 @@ class Location:
     #     """ Get coordinates"""
     #     return (self.x, self.y)
 
+
     def get_npc(self) -> Optional[NPC]:
         """Get NPC at location, if any
         """
