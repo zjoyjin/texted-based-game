@@ -3,8 +3,8 @@
 1,3,0,True,T Card
 9,7,10,False,Hot Chocolate
 9,8,5,False,Candy
-0,0,20,False,Running Shoes
+0,0,0,False,Running Shoes
 9,7,10,False,Umbrella
-1,9,10,False,Pass Exam
+1,9,10,False,Past Exam
 1,9,50,False,Uoft Hoodie
 9,3,0,False,Baby Rock
