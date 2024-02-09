@@ -184,10 +184,11 @@ if __name__ == "__main__":
             print("Invalid option!")
 
         # Check loss  TODO: change number to be reasonable, and also change time while ur at it
-        if p.steps > 570:
+        if p.steps > 80:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
-
+            break
+            
         # Check for victory
     if p.morale >= 4:
     # 2 different endings!
