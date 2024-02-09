@@ -20,7 +20,7 @@ This file is Copyright (c) 2024 CSC111 Teaching Team
 # Note: You may add in other import statements here as needed
 from game_data import Item, Location, Player, Shop, Wallet
 from world import World
-from puzzle import examine, type_code, look_closer
+from puzzle import examine, look_closer
 
 N, E, S, W = "NORTH", "EAST", "SOUTH", "WEST"   #move into get_directions if not needed
 
@@ -51,9 +51,9 @@ def remove_item_from_loc(location: Location, item: Item):
 
 # Prompts for player:
 def menu_prompt(p: Player):
-    print("Menu Options:")
+    print("Menu Options: ")
     for option in menu:
-        print(option, "\t")
+        print(option, end ="\t")
     choice = input("\nChoose action: ").upper()
     if choice == "INVENTORY":
         p.display_inventory()
@@ -72,7 +72,7 @@ def move_prompt(w: World, p: Player):
     print("Where to go?")
     dirs = get_directions(w, p)
     for dir in dirs:
-        print(dir, "\t")
+        print(dir, end = "\t")
     print("BACK")
     choice = input("Enter direction: ").upper()
     if choice in dirs:
@@ -104,18 +104,10 @@ def pick_up_prompt(w: World, p: Player):
     elif selected_item != 'Back':
         print("Invalid item!")
         pick_up_prompt(w, p)
-
-def robarts_first_floor_puzzle(p: Player, location: Location):
-    """Checks if the player is at the specified location and triggers the Robarts Library puzzle.
-        player_location: The current location of the player.
-    """
-    examine()
-
-#TODO:
 def buy_prompt(location: Shop, p: Player):
     print(f"Welcome to {location.name}!")
     location.print_wares()
-    selected_item = input("What to buy? (enter 'BACK' to go back)").title()
+    selected_item = input("What to buy? (enter 'BACK' to go back) ").title()
     item = w.get_item_from_name(selected_item)
     if item in location.items:
         p.wallet.buy(item.price)
@@ -139,13 +131,13 @@ if __name__ == "__main__":
             location.print_items()
 
         print("\nWhat to do?")
-        print("MOVE\tLOOK\tMENU\tPICK UP\t\tDROP", "\t")
+        print("MOVE\tLOOK\tMENU\tPICK UP    DROP ", end = "\t")
         if location.npc:
-            print("TALK", "\t")
+            print("TALK", end = "\t")
         if isinstance(location, Shop):
-            print("BUY", "\t")
+            print("BUY", end = "\t")
         if location.num == 36 and not p.completed_puzzle:
-            print("LOOK CLOSER\tEXAMINE ITEM", "\t")
+            print("LOOK CLOSER\tEXAMINE", end = "\t")
 
         choice = input("\nEnter action: ").upper()
 
@@ -184,7 +176,7 @@ if __name__ == "__main__":
             buy_prompt(location, p)
         elif choice == "LOOK CLOSER" and location.num == 36 and not p.completed_puzzle:
             look_closer()
-        elif choice == "EXAMINE OBJECT" and location.num == 36 and not p.completed_puzzle:
+        elif choice == "EXAMINE" and location.num == 36 and not p.completed_puzzle:
             examine(p)
         else:
             print("Invalid option!")

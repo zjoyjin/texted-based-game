@@ -33,9 +33,8 @@ class Item:
         - # TODO
     """
     name: str
-    x: int
-    y: int
-    target_points: int
+    x: Optional[int]        # None if in inventory
+    y: Optional[int]
     price: int
     key_item: bool
 
@@ -60,7 +59,7 @@ class Item:
         else:
             self.key_item = True
 
-    def update_location(self, x: int, y: int) -> None:
+    def update_location(self, x: Optional[int], y: Optional[int]) -> None:
         """ Update position of item. None if in inventory.
         """
         self.x = x
@@ -195,7 +194,7 @@ class Player:
         elif at_ex and item.key_item:
             self.inventory.remove(item)
             self._deposited.add(item)
-            self.morale += item.target_points
+            self.morale += 5
             print(f"Deposited {item.name} at the Exam Centre!")
         else:
             print(f"Could not take out {item.name}.")
@@ -300,23 +299,19 @@ class RichLady(NPC):
     def prompt(self, player: Player) -> None:
         """RichLady harasses the player."""
         print(f"{self.name} looks at you with sideeyes and says: What are you doing here? You don't belong!")
-        print("Options:")
-        print("1. Respond calmly.")
-        print("2. Insult her back.")
-        print("3. Attempt to rob her.")
-        print("4. Leave.")
+        print("Options: RESPOND\tINSULT\tROB\tLEAVE")
 
-        choice = input("Enter your choice (1, 2, 3, or 4): ")
-        if choice == '1':
-            print("You respond calmly and try to defuse the situation.")
+        choice = input("What to do? ").lower()
+        if choice == 'respond':
+            print("You respond calmly and try to defuse the situation. The lady sniffs disdainfully, but says nothing.")
             player.morale += 2
-        elif choice == '2':
+        elif choice == 'insult':
             print("You insult her back, but it doesn't helps the situation.")
             player.morale -= 3
-        elif choice == '3':
+        elif choice == 'rob':
             print("You decide to attempt to rob her.")
             self.get_robbed(player)
-        elif choice == '4':
+        elif choice == 'leave':
             print("You decide to leave to avoid further confrontation.")
         else:
             print("Invalid choice. You decide to leave.")
@@ -326,12 +321,7 @@ class RichLady(NPC):
 class CryingGirl(NPC):
     """A crying girl NPC."""
 
-    def __init__(self, name: str, happiness: int, money: int, morale: int, has_baby_rock: bool = False) -> None:
-        """Initialize a new CryingGirl.
-        """
-        self.has_baby_rock = has_baby_rock
-
-    has_baby_rock = False
+    has_baby_rock: bool = False
 
     def _rob_attempt(self) -> bool:
         """Robbery attempt for CryingGirl (always fails)."""
@@ -340,18 +330,15 @@ class CryingGirl(NPC):
     def prompt(self, player: Player) -> None:
         """CryingGirl talks to the player and requests them to find a baby rock."""
         print(f"{self.name}: *Sob* Oh dear, oh dear... Could you please find a baby rock for me? It means a lot. *Sob*")
-        print("Options:")
-        print("1.Give baby rock.")
-        print("2. Rob")
-        print("3. Leave.")
+        print("Options: GIVE BABY ROCK    ROB\tLEAVE")
 
-        choice = input("Enter your choice (1 or 2): ")
-        if choice == '1':
+        choice = input("What to do? ").lower()
+        if choice == 'give baby rock':
             self.give_baby_rock(player)
-        elif choice == '2':
+        elif choice == 'rob':
             print("You decide to attempt to rob her.")
             self.get_robbed(player)
-        elif choice == '3':
+        elif choice == 'leave':
             print("You decide to leave.")
         else:
             print("Invalid choice. You decide to leave.")
@@ -377,14 +364,7 @@ class CryingGirl(NPC):
 @check_contracts
 class MiserableStudent(NPC):
     """A miserable student NPC."""
-    has_food: bool
-
-    def __init__(self, has_food: bool) -> None:
-        """Initialize a new CryingGirl.
-        """
-        has_food: bool
-
-    has_food = False
+    has_food: bool = False
 
     def _rob_attempt(self) -> bool:
         """Robbery attempt for MiserableStudent (always succeeds)."""
@@ -400,13 +380,10 @@ class MiserableStudent(NPC):
             print("You've already bought food for the student. They look grateful.")
             player.morale += 5
         else:
-            print("Options:")
-            print("1. Give food")
-            print("2. Attempt to Rob them")
-            print("3. Refuse and leave.")
+            print("Options: GIVE FOOD    ROB\tLEAVE")
 
-            choice = input("Enter your choice (1 or 2): ")
-            if choice == '1':
+            choice = input("What to do? ").lower()
+            if choice == "give food":
                 print("What do you want to give?")
                 player.display_inventory()
                 inp = input().lower()
@@ -425,12 +402,13 @@ class MiserableStudent(NPC):
                             player.pick_up(i)
                             player.got_running_shoes()
                             break
+                    player.morale += 3
                 else:
-                    print(f"{self.name}: That's not food... Go to 7-11 and get me some food")
-            elif choice == '2':
+                    print(f"{self.name}: That's not food...")
+            elif choice == 'rob':
                 print("You decide to attempt to rob them.")
                 self.get_robbed(player)
-            elif choice == '3':
+            elif choice == 'leave':
                 print("You decide to refuse and leave.")
             else:
                 print("Invalid choice. You decide to leave.")
@@ -466,7 +444,7 @@ class Location:
     long_desc: str
     visited: bool
     items: list[Item]
-    npc: NPC  # there's only gonna be at most one npc at each loc anyway
+    npc: Optional[NPC]  # there's only gonna be at most one npc at each loc anyway
 
     def __init__(self, num: int, name: str, pos: tuple, short_desc: str, long_desc: str) -> None:
         """Initialize a new location.
@@ -504,7 +482,7 @@ class Location:
     def get_coords(self) -> tuple:
         return (self.x, self.y)
 
-    def get_npc(self):
+    def get_npc(self) -> Optional[NPC]:
         return self.npc
 
     def add_item(self, item: Item) -> None:
