@@ -88,7 +88,7 @@ class World:
         return itms
 
     def load_npcs(self):
-        return [RichLady("Rich Lady", 10, 8, 9), MiserableStudent("Miserable Student", 0, 5, 7), CryingGirl("Crying Girl", 0, 7, 4)]
+        return [RichLady("Rich Lady", 8, 9), MiserableStudent("Miserable Student", 5, 7), CryingGirl("Crying Girl", 7, 4)]
 
     def init_items_and_npc_to_loc(self):
         for item in self.items:
