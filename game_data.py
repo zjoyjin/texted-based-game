@@ -171,9 +171,9 @@ class Player:
             print("Your inventory is empty.")
         else:
             print("Your inventory:")
-            for item in self.inventory:
-                print(item.name, ", ")
-            print("\n")
+            for i in range(len(self.inventory) - 1):
+                print(self.inventory[i].name + ", ", end="")
+            print(self.inventory[len(self.inventory) - 1].name)
 
     def print_steps(self) -> None:
         """Print step count to player, represented as time elapsed in-game.
