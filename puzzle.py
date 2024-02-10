@@ -6,9 +6,10 @@ def look_closer():
           "you assume are crumbs. The nearest desk even has a pen and a blotter pad, as well as an ", 
           "abandoned mint tin. Strangely enough, a metal door is blocking the way to the second floor.")
 
-def examine(p: Player):
+def examine(p: Player) -> bool:
     """Examine an item in the current location.
         item_description: The description of the item to examine.
+        Returns if the puzzle has been completed or not.
     """
     choice = input("What should be examined? (enter 'BACK' to go back) ").lower()
 
@@ -25,20 +26,23 @@ def examine(p: Player):
         print("They're green tea mints from Trader Joe's. Are there even Trader Joe's' in Canada?")
     elif choice == "metal door":
         print("The door is locked by an alphanumeric keypad next to the handle.")
-        type_code(p)
+        return type_code(p)
     elif choice != "back":
         print(f"You cannot examine {choice}.")
-        examine(p)
+        return examine(p)
+    return False
 
 
-def type_code(p: Player):
+def type_code(p: Player) -> bool:
     """Type a code on the alphanumeric keypad.
         code: The code to type on the keypad.
+        Returns whether or not the code is correct.
     """
     code = input("Input code: ")
 
     if code == "HappyJoyee":
         print("The lock behind the handle clunks open.")
-        p.completed_puzzle = True
+        return True
     else:
         print("Nothing happens. The code seems incorrect.")
+        return False
