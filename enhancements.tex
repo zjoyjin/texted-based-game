@@ -6,7 +6,7 @@
 \usepackage[margin=0.75in]{geometry}
 
 \title{CSC111 Winter 2024 Project 1}
-\author{TODO: FILL IN YOUR NAME(S) HERE}
+\author{Joyee and Ashley}
 \date{\today}
 
 \begin{document}
@@ -20,10 +20,92 @@
 \item Describe your enhancement \#1 here
 	\begin{itemize}
 	\item Brief description of what the enhancement is (if it's a puzzle, also describe what steps the player must take to solve it):
-	\item Complexity level (choose from low/medium/high):
+\newline A puzzle is created for the player to get into Robarts by examine the surroundings and enter in a pass-code to get into Robarts
+	\item Complexity level (choose from low/medium/high): \newline easy
 	\item Reasons you believe this is the complexity level (e.g. mention implementation details, how much code did you have to add/change from the baseline, what challenges did you face, etc.)
+\newline The puzzle is intended to be easy, with a solution that does not involve complex logic or several steps. The coding itself is also straight forward with functions such us type code and examine the surroundings, and the difficulty level is kept low to make it accessible to players who are new to the game's puzzle system.
 	% Feel free to add more subheadings if you need
 	\end{itemize}
+
+\item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is:
+\newline  A NPC class is added to help with the game, asking player to complete some side request in order to past the game. 
+	\item Complexity level (low/medium/high): \newline high
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details)
+ \newline Adding a new class requires a lot of  changes to the game's code base. The NPC class have complex interactions, behaviors, such as allowing the player to rob the player, talking to NPC, asking player to complete the side requests. This class contains high complexity because the amount of code changes implemented with additional function such as rob attempt, adding morale level and more. For NPC class, I created 4 classes in total to help with the implantation. While writing the code, I have faced some challenges such as the NPC will not give the correct response and allowing player to do some incorrect action.
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+
+ \item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is:
+       \newline Score is changed to moral
+	\item Complexity level (low/medium/high):\newline Easy
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline The score is changed to moral so it would make more sense in the game. As we want the player to have good moral for going to take the exam. 
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+
+ \item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is:
+       \newline Steps is changed to time
+	\item Complexity level (low/medium/high):\newline Easy
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline The steps is changed to time, each step count as two mins, as it starts at 8:00, and if you don't finish by 5:30, you will lose the game 
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+ 
+ \item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is:
+       \newline Running shoes is added so player could go quicker
+	\item Complexity level (low/medium/high):\newline Easy
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline Players are given running shoes so each step count as 1 min instead of two mins. It is easy because it would just be an if statement
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+ 
+\item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is: \newline Store Class has stock of items (wares) w/ associated price; player can purchase these items. With inheritance from the Location class. 
+	\item Complexity level (low/medium/high): \newline Medium
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline In the store class we need to know how to initialize the store, despite also having initialized the general Location class, as well as the items inside. We make changes to the base as how items could be accessed by player (player can’t directly pick it up), also it needs a monetary value to items, and it need to initialize differently from other locations
+
+
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+
+\item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is: \newline Wallet Class is added to allow player to buy things in the store. 
+	\item Complexity level (low/medium/high): \newline Easy
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline the wallet class is added for earning the money buy robbing NPC, when player want to buy things in the store, we allow adding and deleting the money from the player's wallet. The Implementation was easy and straight forward. 
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+ 
+\item Describe your enhancement here
+	\begin{itemize}
+	\item Basic description of what the enhancement is: \newline max step changed into time
+	\item Complexity level (low/medium/high): \newline Easy
+	\item Reasons you believe this is the complexity level (e.g. mention implementation details 
+ \newline You will have a maximum time, and if you didn't pass the game before the max time, you will loose the game. Instead of just adding 1 by each step, we did some convertion of time in the code. 
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+
+\item Side notes
+	\begin{itemize}
+	\item  separate puzzle.py and world.py to better help the function 
+	\item  This is just a side note that our puzzle and world class are in two separate files so we would not have compile issue in git hub, and for the convince of usage in the game 
+	% Feel free to add more subheadings if you feel the need
+	\end{itemize}
+
+
+
+
 
 % Uncomment below section if you have more enhancements; copy-paste as many times as needed
 %\item Describe your enhancement here
