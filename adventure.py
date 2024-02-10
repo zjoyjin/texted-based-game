@@ -179,19 +179,21 @@ if __name__ == "__main__":
         elif choice == "LOOK CLOSER" and location.num == 36 and not completed_puzzle:
             look_closer()
         elif choice == "EXAMINE" and location.num == 36 and not completed_puzzle:
-            examine(p)
+            completed_puzzle = examine(p)
         else:
             print("Invalid option!")
 
         # Check loss  TODO: change number to be reasonable, and also change time while ur at it
+
         if p.steps > 250:
+
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
             break
             
         # Check for victory
     if p.morale >= 4:
-            # 2 different endings!
+    # 2 different endings!
         print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
-    else:
+    elif p.check_victory():
         print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")

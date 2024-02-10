@@ -179,14 +179,14 @@ You can smell the fresh air of Queen's Park
 You're in Queen's Park, surrounded by lots of greenery. It's calm and peaceful here, with a relaxed vibe in the air.
 -
 LOCATION 35
-Robarts F1
-You are inside the first floor Robarts library.
-You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. You are locked here, but you need to get in. Maybe you could look closure
--
-LOCATION 36
 Robarts F2
 You are at Robarts second floor.
 You are at Robarts second floor, there is still no one here. You remebered last night there was a kid dancing on the table, singing songs. People was going crazy last night. You look around, hopefully you can find something you left here last night.
+-
+LOCATION 36
+Robarts F1
+You are inside the first floor Robarts library.
+You are inside the library, it is very quite in here. You cannot spot a single person in Robarts. You are locked here, but you need to get in. Maybe you could look closer.
 -
 LOCATION 37
 Book Store
