@@ -185,15 +185,15 @@ if __name__ == "__main__":
 
         # Check loss  TODO: change number to be reasonable, and also change time while ur at it
 
-        if p.steps > 250:
+        if p.steps > 130:
 
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
             break
             
         # Check for victory
-    if p.morale >= 4:
+    if p.morale >= 20:
     # 2 different endings!
         print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
     elif p.check_victory():
-        print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
+        print("Despite your exhaustion, you made it to the exam centre will all your material. But your morale is too low that you can't take the exam. You can go home and sleep.")

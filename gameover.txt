@@ -75,7 +75,7 @@ move
 east
 pick up
 lucky pen
-enu
+menu
 inventory
 move
 west
