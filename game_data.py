@@ -4,7 +4,7 @@ Instructions (READ THIS FIRST!)
 ===============================
 
 This Python module contains the main classes for Project 1, to be imported and used by
- the `adventure` module.
+ the `adventure` module and/or other classes in this file.
  Please consult the project handout for instructions and details.
 
 Copyright and Usage Information
@@ -484,11 +484,6 @@ class Location:
         """
         return self.items
 
-    # def get_coords(self) -> tuple[int]:
-    #     """ Get coordinates"""
-    #     return (self.x, self.y)
-
-
     def get_npc(self) -> Optional[NPC]:
         """Get NPC at location, if any
         """
@@ -559,11 +554,3 @@ class Shop(Location):
         """
         print("Thank you for your purchase!")
         self.remove_item(item)
-
-
-if __name__ == '__main__':
-    import python_ta
-
-    python_ta.check_all(config={
-        'max-line-length': 120
-    })
