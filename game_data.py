@@ -178,7 +178,7 @@ class Player:
     def print_steps(self) -> None:
         """Print step count to player, represented as time elapsed in-game.
         """
-        print(f"It is {10 + self.steps // 60}:{self.steps % 60}. Your exam starts at 11:30!")
+        print(f"It is {9 + self.steps // 60}:{self.steps % 60}. Your exam starts at 11:30!")
 
     def pick_up(self, item: Item) -> None:
         """Add an item to the player's inventory.

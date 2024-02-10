@@ -184,7 +184,7 @@ if __name__ == "__main__":
             print("Invalid option!")
 
         # Check loss  TODO: change number to be reasonable, and also change time while ur at it
-        if p.steps > 90:
+        if p.steps > 150:
             p.print_steps()
             print("Oh no! You missed your exam... womp womp :(")
             break
