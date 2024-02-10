@@ -29,6 +29,8 @@ inventory
 talk
 give baby rock
 menu
+inveNtory
+menu
 morale
 look
 move
@@ -87,6 +89,8 @@ pick up
 buy
 past exam
 menu
+inventory
+menu
 wallet
 move
 east
@@ -112,7 +116,7 @@ move
 north
 talk
 give food
-pass exam
+past exam
 menu
 inventory
 move
