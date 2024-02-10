@@ -85,7 +85,7 @@ move
 west
 pick up
 buy
-pass exam
+past exam
 menu
 wallet
 move
@@ -208,7 +208,7 @@ t card
 menu
 inventory
 drop
-cheat sheet
+Cheat Sheet
 menu
 inventory
 drop

@@ -190,7 +190,7 @@ if __name__ == "__main__":
 
         # Check for victory
     if p.morale >= 4:
-    # 2 different endings!
+            # 2 different endings!
         print("You made it to the exam centre will all your material! Despite all the stress and the struggle, you feel confident and ready. Good luck!")
     else:
         print("Despite your exhaustion, you made it to the exam centre will all your material. You just have to get through one last challenge before you can go home and sleep... Good luck!")
