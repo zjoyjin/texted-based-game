@@ -139,11 +139,6 @@ def buy_prompt(world: World, loc: Shop, player: Player) -> None:
 
 
 if __name__ == "__main__":
-    import python_ta
-
-    python_ta.check_all(config={
-        'max-line-length': 120
-    })
 
     with open('map.txt') as map_file, open('locations.txt') as location_file, open('items.txt') as item_file:
         w = World(map_file, location_file, item_file)
